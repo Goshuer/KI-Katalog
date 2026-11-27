@@ -6,7 +6,7 @@
   "intro": "Was hilft beim Recherchieren, Gestalten oder Organisieren? Entdecke Web-Tools und KI-Skills, die wir im Kurs ausprobiert haben, mit konkreten Tipps zum Einsatz.",
   "repository": "",
   "einreichen": {
-    "endpoint": "",
+    "endpoint": "https://toolbox-einreichen.oldschooljosh.workers.dev",
     "kursCode": true,
     "plattformenSkill": [
       "ChatGPT",
