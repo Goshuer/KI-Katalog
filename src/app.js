@@ -336,6 +336,7 @@ function downloadPrompt() {
 // Direktlinks: …/#quellen-check öffnet den Eintrag sofort.
 function openFromHash() {
   const id = decodeURIComponent(location.hash.slice(1));
+  if (id === 'moderation') return openModeration();
   const tool = tools.find((item) => item.id === id);
   if (tool) openDetail(tool);
   else if (dialog.open) dialog.close();
@@ -516,7 +517,167 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
+// ---------- Moderation ----------
+// Erreichbar über den Link «Moderation» in der Fusszeile oder …/#moderation.
+const modDialog = byId('mod-dialog');
+const modLogin = byId('mod-login');
+const modEndpoint = submitCfg.endpoint ? submitCfg.endpoint.replace(/\/$/, '') + '/moderation' : '';
+const modKey = 'toolbox-mod';
+let modCode = '';
+try { modCode = sessionStorage.getItem(modKey) || ''; } catch { /* ohne Speicher einfach jedes Mal anmelden */ }
+
+byId('mod-open').hidden = !modEndpoint;
+
+function modError(message) {
+  const box = byId('mod-error');
+  box.textContent = message;
+  box.hidden = !message;
+}
+
+async function modRequest(payload) {
+  const response = await fetch(modEndpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...payload, modCode }),
+  });
+  const result = await response.json().catch(() => ({}));
+  if (response.status === 403 && payload.aktion === 'liste') {
+    modCode = '';
+    try { sessionStorage.removeItem(modKey); } catch { /* egal */ }
+  }
+  if (!response.ok || !result.ok) throw new Error(result.fehler || 'Das hat nicht geklappt.');
+  return result;
+}
+
+function modItem(entry) {
+  const item = byId('mod-item').content.firstElementChild.cloneNode(true);
+  const pill = item.querySelector('.type-pill');
+  pill.className = 'type-pill' + (entry.typ === 'skill' ? ' skill' : '');
+  pill.textContent = TYPE_SINGULAR[entry.typ];
+  item.querySelector('.mod-date').textContent = 'eingereicht am ' +
+    new Date(entry.erstellt).toLocaleDateString('de-CH', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+  const nameField = entry.felder.find(([label]) => label === 'Name');
+  item.querySelector('.mod-name').textContent = nameField ? nameField[1] : entry.titel;
+
+  const list = item.querySelector('.mod-fields');
+  for (const [label, value] of entry.felder) {
+    if (label === 'Name') continue;
+    const dt = document.createElement('dt');
+    dt.textContent = label.replace(/ …$/, '');
+    const dd = document.createElement('dd');
+    if (label.startsWith('Prompt')) {
+      const pre = document.createElement('pre');
+      pre.textContent = value;
+      dd.append(pre);
+    } else {
+      dd.textContent = value;
+    }
+    list.append(dt, dd);
+  }
+
+  const status = item.querySelector('.mod-status');
+  for (const button of item.querySelectorAll('[data-action]')) {
+    button.addEventListener('click', async () => {
+      const aktion = button.dataset.action;
+      if (aktion === 'ablehnen' && !confirmReject(item)) return;
+      const buttons = item.querySelectorAll('[data-action]');
+      buttons.forEach((b) => { b.disabled = true; });
+      status.hidden = false;
+      status.className = 'mod-status';
+      status.textContent = aktion === 'freigeben' ? 'Wird freigegeben …' : 'Wird abgelehnt …';
+      try {
+        await modRequest({ aktion, nummer: entry.nummer });
+        item.classList.add('is-done');
+        status.classList.add(aktion === 'freigeben' ? 'ok' : 'no');
+        status.textContent = aktion === 'freigeben'
+          ? '✓ Freigegeben. Der Eintrag erscheint in etwa zwei Minuten in der Toolbox.'
+          : 'Abgelehnt. Der Eintrag wird nicht veröffentlicht.';
+        item.querySelector('.mod-actions').hidden = true;
+        updateModCount();
+      } catch (error) {
+        status.classList.add('no');
+        status.textContent = error.message;
+        buttons.forEach((b) => { b.disabled = false; });
+      }
+    });
+  }
+  return item;
+}
+
+// Ablehnen braucht einen zweiten Klick, damit nichts aus Versehen verschwindet.
+function confirmReject(item) {
+  const button = item.querySelector('[data-action="ablehnen"]');
+  if (button.dataset.confirm) return true;
+  button.dataset.confirm = '1';
+  button.textContent = 'Wirklich ablehnen?';
+  setTimeout(() => {
+    delete button.dataset.confirm;
+    button.textContent = 'Ablehnen';
+  }, 4000);
+  return false;
+}
+
+function updateModCount() {
+  const open = byId('mod-list').querySelectorAll('.mod-item:not(.is-done)').length;
+  byId('mod-count').textContent = open === 0 ? 'Keine offenen Einreichungen.'
+    : open === 1 ? '1 Einreichung wartet auf Prüfung.' : open + ' Einreichungen warten auf Prüfung.';
+}
+
+async function loadModeration() {
+  modError('');
+  byId('mod-count').textContent = 'Wird geladen …';
+  try {
+    const { einreichungen } = await modRequest({ aktion: 'liste' });
+    try { sessionStorage.setItem(modKey, modCode); } catch { /* egal */ }
+    modLogin.hidden = true;
+    byId('mod-area').hidden = false;
+    const list = byId('mod-list');
+    if (einreichungen.length) {
+      list.replaceChildren(...einreichungen.map(modItem));
+    } else {
+      const empty = document.createElement('p');
+      empty.className = 'mod-empty';
+      empty.textContent = 'Alles erledigt. Neue Einreichungen erscheinen hier.';
+      list.replaceChildren(empty);
+    }
+    updateModCount();
+  } catch (error) {
+    byId('mod-area').hidden = true;
+    modLogin.hidden = false;
+    modError(error instanceof TypeError ? 'Keine Verbindung zum Server.' : error.message);
+    modLogin.elements.modCode.focus();
+  }
+}
+
+function openModeration() {
+  if (!modEndpoint) return;
+  if (dialog.open) dialog.close();
+  if (!modDialog.open) modDialog.showModal();
+  if (modCode) loadModeration();
+  else {
+    modLogin.hidden = false;
+    byId('mod-area').hidden = true;
+    modError('');
+    modLogin.elements.modCode.focus();
+  }
+}
+
+byId('mod-open').addEventListener('click', openModeration);
+byId('mod-close').addEventListener('click', () => modDialog.close());
+byId('mod-reload').addEventListener('click', loadModeration);
+modDialog.addEventListener('close', () => {
+  if (location.hash === '#moderation') history.replaceState(null, '', location.pathname + location.search);
+});
+modLogin.addEventListener('submit', (event) => {
+  event.preventDefault();
+  modCode = modLogin.elements.modCode.value.trim();
+  if (!modCode) return modError('Bitte gib das Passwort ein.');
+  modLogin.elements.modCode.value = '';
+  loadModeration();
+});
+
 render();
-openFromHash();
+if (location.hash === '#moderation') openModeration();
+else openFromHash();
 
 })();

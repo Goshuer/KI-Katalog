@@ -1,12 +1,17 @@
-// Cloudflare Worker: nimmt Einreichungen aus der Toolbox-Eingabemaske entgegen
-// und legt sie als GitHub-Issue mit dem Label "eingereicht" an.
-// Die Moderation läuft danach wie gewohnt über das Label "freigegeben".
+// Cloudflare Worker für die Toolbox.
+//
+//   POST /             Einreichung aus der Eingabemaske → GitHub-Issue mit Label "eingereicht"
+//   POST /moderation   Moderation: offene Einreichungen auflisten, freigeben oder ablehnen
+//
+// Freigeben setzt das Label "freigegeben". Danach übernimmt der GitHub-Workflow
+// "Tool aufnehmen" den Eintrag automatisch in die Toolbox.
 //
 // Einstellungen im Worker (Settings → Variables and Secrets):
 //   GITHUB_TOKEN    (Secret)  Fine-grained Token, nur für dieses Repository, Recht "Issues: Read and write"
 //   REPO            (Text)    z. B. Goshuer/KI-Katalog
 //   ALLOWED_ORIGIN  (Text)    z. B. https://goshuer.github.io   (mehrere mit Komma trennen)
 //   KURS_CODE       (Secret)  optional: Code, den man zum Einreichen kennen muss
+//   MOD_CODE        (Secret)  Passwort für die Moderation
 
 const KATEGORIEN = ['KI & Recherche', 'Design & Bild', 'Text & Dokumente', 'Audio & Video', 'Barrierefreiheit', 'Produktivität', 'Dateien'];
 
@@ -47,6 +52,131 @@ function bereinigen(wert, max, istPrompt) {
   return s;
 }
 
+function github(env, pfad, methode = 'GET', daten) {
+  return fetch(`https://api.github.com/repos/${env.REPO}${pfad}`, {
+    method: methode,
+    headers: {
+      'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+      'Accept': 'application/vnd.github+json',
+      'User-Agent': 'toolbox-einreichen',
+      'Content-Type': 'application/json',
+    },
+    body: daten ? JSON.stringify(daten) : undefined,
+  });
+}
+
+// Vergleich in konstanter Zeit, damit das Passwort nicht Zeichen für Zeichen erraten werden kann.
+function gleich(a, b) {
+  const x = new TextEncoder().encode(String(a));
+  const y = new TextEncoder().encode(String(b));
+  let diff = x.length ^ y.length;
+  for (let i = 0; i < Math.max(x.length, y.length); i++) diff |= (x[i] ?? 0) ^ (y[i] ?? 0);
+  return diff === 0;
+}
+
+// Issue-Text ("### Label\n\nWert") wieder in Felder zerlegen, für die Vorschau in der Moderation.
+function felderAusIssue(body) {
+  body = (body || '').replace(/\r\n/g, '\n');
+  const felder = [];
+  const kopf = '### Prompt / Anweisungen';
+  const p = body.indexOf(kopf);
+  for (const chunk of (p >= 0 ? body.slice(0, p) : body).split(/^### /m).slice(1)) {
+    const nl = chunk.indexOf('\n');
+    const label = (nl < 0 ? chunk : chunk.slice(0, nl)).trim();
+    const wert = (nl < 0 ? '' : chunk.slice(nl + 1)).trim();
+    if (wert && wert !== '_No response_') felder.push([label, wert]);
+  }
+  if (p >= 0) felder.push(['Prompt / Anweisungen', body.slice(p + kopf.length).trim()]);
+  return felder;
+}
+
+async function einreichen(d, env, cors) {
+  // Honeypot: Menschen lassen dieses unsichtbare Feld leer. Bots bekommen ein stilles "ok".
+  if (d.website) return antwort({ ok: true }, 200, cors);
+
+  if (env.KURS_CODE && String(d.kursCode || '').trim().toLowerCase() !== env.KURS_CODE.trim().toLowerCase()) {
+    return antwort({ fehler: 'Der Kurs-Code stimmt nicht.' }, 403, cors);
+  }
+
+  const typ = d.typ === 'web' ? 'web' : 'skill';
+  const felder = FELDER[typ];
+  const werte = {};
+  for (const [key, label, max, pflicht] of felder) {
+    werte[key] = bereinigen(d[key], max, key === 'prompt');
+    if (pflicht && !werte[key]) return antwort({ fehler: `Bitte fülle das Feld «${label}» aus.` }, 400, cors);
+  }
+  if (!KATEGORIEN.includes(werte.kategorie)) return antwort({ fehler: 'Unbekannte Kategorie.' }, 400, cors);
+  if (werte.url && !/^https?:\/\/[^\s]+\.[^\s]+$/i.test(werte.url)) {
+    return antwort({ fehler: 'Der Link muss mit https:// beginnen.' }, 400, cors);
+  }
+
+  const body = felder.map(([key, label]) => `### ${label}\n\n${werte[key] || '_No response_'}`).join('\n\n');
+  const title = `${typ === 'skill' ? 'KI-Skill' : 'Web-Tool'}: ${werte.name.replace(/\s+/g, ' ')}`;
+
+  const res = await github(env, '/issues', 'POST', { title, body, labels: ['eingereicht'] });
+  if (!res.ok) {
+    console.log('GitHub-Fehler', res.status, await res.text());
+    return antwort({ fehler: 'Die Einreichung konnte gerade nicht gespeichert werden. Bitte versuch es später nochmals.' }, 502, cors);
+  }
+  return antwort({ ok: true }, 200, cors);
+}
+
+async function moderation(d, env, cors) {
+  if (!env.MOD_CODE) return antwort({ fehler: 'Die Moderation ist noch nicht eingerichtet (MOD_CODE fehlt im Worker).' }, 503, cors);
+  if (!gleich(String(d.modCode || '').trim(), env.MOD_CODE.trim())) {
+    await new Promise((r) => setTimeout(r, 800)); // Raten bremsen
+    return antwort({ fehler: 'Das Moderations-Passwort stimmt nicht.' }, 403, cors);
+  }
+
+  if (d.aktion === 'liste') {
+    const res = await github(env, '/issues?state=open&labels=eingereicht&per_page=50&sort=created&direction=asc');
+    if (!res.ok) {
+      console.log('GitHub-Fehler', res.status, await res.text());
+      return antwort({ fehler: 'Die Einreichungen konnten nicht geladen werden.' }, 502, cors);
+    }
+    const issues = await res.json();
+    return antwort({
+      ok: true,
+      einreichungen: issues
+        .filter((i) => !i.pull_request && !i.labels.some((l) => l.name === 'freigegeben'))
+        .map((i) => ({
+          nummer: i.number,
+          titel: i.title,
+          typ: i.title.startsWith('Web-Tool') ? 'web' : 'skill',
+          erstellt: i.created_at,
+          url: i.html_url,
+          felder: felderAusIssue(i.body),
+        })),
+    }, 200, cors);
+  }
+
+  const nummer = Number(d.nummer);
+  if (!Number.isInteger(nummer) || nummer < 1) return antwort({ fehler: 'Ungültige Einreichung.' }, 400, cors);
+
+  // Nur offene Einreichungen anfassen, nichts anderes im Repository.
+  const res = await github(env, `/issues/${nummer}`);
+  if (!res.ok) return antwort({ fehler: 'Einreichung nicht gefunden.' }, 404, cors);
+  const issue = await res.json();
+  if (issue.state !== 'open' || !issue.labels.some((l) => l.name === 'eingereicht')
+      || issue.labels.some((l) => l.name === 'freigegeben')) {
+    return antwort({ fehler: 'Diese Einreichung wurde schon bearbeitet.' }, 409, cors);
+  }
+
+  if (d.aktion === 'freigeben') {
+    const r = await github(env, `/issues/${nummer}/labels`, 'POST', { labels: ['freigegeben'] });
+    if (!r.ok) return antwort({ fehler: 'Freigeben hat nicht geklappt.' }, 502, cors);
+    return antwort({ ok: true }, 200, cors);
+  }
+
+  if (d.aktion === 'ablehnen') {
+    const r = await github(env, `/issues/${nummer}`, 'PATCH', { state: 'closed', state_reason: 'not_planned' });
+    if (!r.ok) return antwort({ fehler: 'Ablehnen hat nicht geklappt.' }, 502, cors);
+    return antwort({ ok: true }, 200, cors);
+  }
+
+  return antwort({ fehler: 'Unbekannte Aktion.' }, 400, cors);
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
@@ -69,43 +199,8 @@ export default {
       return antwort({ fehler: 'Ungültige Anfrage.' }, 400, cors);
     }
 
-    // Honeypot: Menschen lassen dieses unsichtbare Feld leer. Bots bekommen ein stilles "ok".
-    if (d.website) return antwort({ ok: true }, 200, cors);
-
-    if (env.KURS_CODE && String(d.kursCode || '').trim().toLowerCase() !== env.KURS_CODE.trim().toLowerCase()) {
-      return antwort({ fehler: 'Der Kurs-Code stimmt nicht.' }, 403, cors);
-    }
-
-    const typ = d.typ === 'web' ? 'web' : 'skill';
-    const felder = FELDER[typ];
-    const werte = {};
-    for (const [key, label, max, pflicht] of felder) {
-      werte[key] = bereinigen(d[key], max, key === 'prompt');
-      if (pflicht && !werte[key]) return antwort({ fehler: `Bitte fülle das Feld «${label}» aus.` }, 400, cors);
-    }
-    if (!KATEGORIEN.includes(werte.kategorie)) return antwort({ fehler: 'Unbekannte Kategorie.' }, 400, cors);
-    if (werte.url && !/^https?:\/\/[^\s]+\.[^\s]+$/i.test(werte.url)) {
-      return antwort({ fehler: 'Der Link muss mit https:// beginnen.' }, 400, cors);
-    }
-
-    const body = felder.map(([key, label]) => `### ${label}\n\n${werte[key] || '_No response_'}`).join('\n\n');
-    const title = `${typ === 'skill' ? 'KI-Skill' : 'Web-Tool'}: ${werte.name.replace(/\s+/g, ' ')}`;
-
-    const res = await fetch(`https://api.github.com/repos/${env.REPO}/issues`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github+json',
-        'User-Agent': 'toolbox-einreichen',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, body, labels: ['eingereicht'] }),
-    });
-
-    if (!res.ok) {
-      console.log('GitHub-Fehler', res.status, await res.text());
-      return antwort({ fehler: 'Die Einreichung konnte gerade nicht gespeichert werden. Bitte versuch es später nochmals.' }, 502, cors);
-    }
-    return antwort({ ok: true }, 200, cors);
+    const pfad = new URL(request.url).pathname.replace(/\/$/, '');
+    if (pfad === '/moderation') return moderation(d, env, cors);
+    return einreichen(d, env, cors);
   },
 };

@@ -10,10 +10,12 @@ ki-skills/   → ein KI-Skill pro Datei
 ## So kommt ein neuer Eintrag in die Toolbox
 
 1. Jemand klickt auf der Website auf **«+ Einreichen»** und füllt die Eingabemaske aus (ohne GitHub-Konto). Die Einreichung landet als Issue mit dem Label `eingereicht` im Repository. Wer GitHub kennt, kann auch direkt die Formulare unter *Issues* → *New issue* nutzen.
-2. Eine Moderatorin liest die Einreichung. Bei Bedarf bearbeitet sie das Issue direkt (Tippfehler, Kategorie anpassen).
-3. Sie setzt das Label **`freigegeben`**. Danach geht alles automatisch: Die Datei wird angelegt, das Issue geschlossen und die Website in ein bis zwei Minuten aktualisiert.
+2. Eine Moderatorin öffnet auf der Website unten den Link **«Moderation»** (oder `…/#moderation`), meldet sich mit dem Moderations-Passwort an und sieht alle offenen Einreichungen mit vollem Inhalt.
+3. Sie klickt auf **«Freigeben»** oder **«Ablehnen»**. Beim Freigeben geht alles automatisch: Die Datei wird angelegt, das Issue geschlossen und die Website in ein bis zwei Minuten aktualisiert.
 
-Nur Personen mit Schreibrechten im Repository können Labels setzen. Fremde können also etwas einreichen, aber nichts selbst veröffentlichen.
+Wer lieber direkt in GitHub arbeitet (z. B. um einen Text vor der Freigabe zu korrigieren): Issue öffnen, bei Bedarf bearbeiten und das Label **`freigegeben`** setzen. Das hat dieselbe Wirkung.
+
+Freigeben können nur Personen mit dem Moderations-Passwort oder mit Schreibrechten im Repository. Alle anderen können etwas einreichen, aber nichts selbst veröffentlichen.
 
 **Worauf beim Freigeben achten:**
 - Führt der Link auf die offizielle Seite des Tools?
@@ -53,6 +55,7 @@ GitHub → Profilbild → *Settings* → *Developer settings* → *Personal acce
 | `ALLOWED_ORIGIN` | Text | `https://goshuer.github.io` |
 | `GITHUB_TOKEN` | Secret | der Token aus Schritt 1 |
 | `KURS_CODE` | Secret | ein Code für den Kurs, z. B. `toolbox26` |
+| `MOD_CODE` | Secret | Passwort für die Moderation (nur für Moderator:innen) |
 
 **4. Adresse eintragen**
 Die Adresse des Workers (`https://toolbox-einreichen.<name>.workers.dev`) in `katalog.config.json` bei `einreichen.endpoint` eintragen. Ohne `KURS_CODE` im Worker `kursCode` auf `false` setzen.

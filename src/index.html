@@ -112,7 +112,7 @@
       <noscript>Aktiviere JavaScript, um die Toolbox zu durchsuchen.</noscript>
     </section>
   </main>
-  <footer class="shell footer"><span id="footer-name"></span><span>{{KICKER}}</span></footer>
+  <footer class="shell footer"><span id="footer-name"></span><span>{{KICKER}} · <button id="mod-open" class="footer-link" type="button" hidden>Moderation</button></span></footer>
 
   <template id="tool-card">
     <article class="card">
@@ -287,6 +287,52 @@
       </div>
     </form>
   </dialog>
+
+  <dialog id="mod-dialog" class="mod-dialog" aria-labelledby="mod-title">
+    <div class="detail-inner">
+      <div class="detail-top">
+        <div>
+          <p class="card-category">Moderation</p>
+          <h2 id="mod-title">Einreichungen prüfen</h2>
+        </div>
+        <button id="mod-close" class="icon-button close-detail" type="button" aria-label="Moderation schliessen">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <form id="mod-login" class="mod-login" novalidate>
+        <label class="field">
+          <span>Moderations-Passwort</span>
+          <input name="modCode" type="password" autocomplete="current-password" required>
+        </label>
+        <button class="button button-dark" type="submit">Anmelden</button>
+      </form>
+
+      <div id="mod-area" hidden>
+        <div class="mod-bar">
+          <p id="mod-count" class="hint" role="status"></p>
+          <button id="mod-reload" class="button button-light" type="button">Aktualisieren</button>
+        </div>
+        <div id="mod-list" class="mod-list"></div>
+      </div>
+      <p id="mod-error" class="form-error" role="alert" hidden></p>
+    </div>
+  </dialog>
+
+  <template id="mod-item">
+    <article class="mod-item">
+      <div class="mod-item-head">
+        <div class="card-ident"><span class="type-pill"></span><span class="mod-date hint"></span></div>
+      </div>
+      <h3 class="mod-name"></h3>
+      <dl class="mod-fields"></dl>
+      <div class="detail-actions mod-actions">
+        <button class="button button-dark" type="button" data-action="freigeben">✓ Freigeben</button>
+        <button class="button button-light" type="button" data-action="ablehnen">Ablehnen</button>
+      </div>
+      <p class="mod-status" role="status" hidden></p>
+    </article>
+  </template>
 
   <script type="application/json" id="data">/*DATA*/</script>
   <script>/*SCRIPT*/</script>

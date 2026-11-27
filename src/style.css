@@ -226,3 +226,31 @@ button[disabled] { opacity: .6; cursor: progress; }
 }
 .sentence-block { background: #f5f0e2; border-radius: 13px; padding: 14px 14px 2px; margin: 0 0 14px; }
 .sentence-block .field input, .sentence-block .field textarea { border-color: #d8cfb8; }
+
+/* ---------- Moderation ---------- */
+.footer-link { padding: 0; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+dialog.mod-dialog { width: min(820px, calc(100% - 32px)); }
+.mod-login { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 6px; }
+.mod-login .field { flex: 1 1 260px; margin: 0; }
+.mod-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 4px 0 14px; }
+.mod-list { display: grid; gap: 14px; }
+.mod-item { border: 1px solid var(--line); border-radius: 15px; padding: 16px 18px; background: var(--white); }
+.mod-item.is-done { opacity: .6; }
+.mod-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.mod-name { margin: 0 0 10px; font-size: 1.25rem; letter-spacing: -.025em; }
+.mod-fields { display: grid; grid-template-columns: minmax(140px, 200px) 1fr; gap: 6px 14px; margin: 0 0 14px; font-size: .9rem; }
+.mod-fields dt { color: var(--muted); font-weight: 680; }
+.mod-fields dd { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.mod-fields pre {
+  margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--ink); color: #f1eee4;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .8rem; line-height: 1.55;
+  white-space: pre-wrap; word-break: break-word; max-height: 260px; overflow: auto;
+}
+.mod-status { margin: 10px 0 0; font-weight: 680; font-size: .9rem; }
+.mod-status.ok { color: #30583b; }
+.mod-status.no { color: #8c1d18; }
+.mod-empty { text-align: center; padding: 28px 12px; color: var(--muted); border: 1px dashed #9ca7ae; border-radius: 15px; }
+@media (max-width: 680px) {
+  .mod-fields { grid-template-columns: 1fr; gap: 2px; }
+  .mod-fields dd { margin-bottom: 8px; }
+}
