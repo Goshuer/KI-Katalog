@@ -507,6 +507,9 @@ form.addEventListener('submit', async (event) => {
     });
     const result = await response.json().catch(() => ({}));
     if (!response.ok || !result.ok) throw new Error(result.fehler || 'Das Senden hat nicht geklappt.');
+    byId('done-text').textContent = result.auto
+      ? 'Deine Einreichung ist angekommen und erscheint in ein bis zwei Minuten in der Toolbox. Lade die Seite dann einfach neu.'
+      : 'Deine Einreichung ist angekommen. Sobald sie freigegeben ist, erscheint sie in der Toolbox.';
     showDone(true);
     byId('submit-done').querySelector('[data-close]').focus();
   } catch (error) {

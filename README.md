@@ -9,15 +9,14 @@ ki-skills/   → ein KI-Skill pro Datei
 
 ## So kommt ein neuer Eintrag in die Toolbox
 
-1. Jemand klickt auf der Website auf **«+ Einreichen»** und füllt die Eingabemaske aus (ohne GitHub-Konto). Die Einreichung landet als Issue mit dem Label `eingereicht` im Repository. Wer GitHub kennt, kann auch direkt die Formulare unter *Issues* → *New issue* nutzen.
-2. Eine Moderatorin öffnet auf der Website unten den Link **«Moderation»** (oder `…/#moderation`), meldet sich mit dem Moderations-Passwort an und sieht alle offenen Einreichungen mit vollem Inhalt.
-3. Sie klickt auf **«Freigeben»** oder **«Ablehnen»**. Beim Freigeben geht alles automatisch: Die Datei wird angelegt, das Issue geschlossen und die Website in ein bis zwei Minuten aktualisiert.
+1. Jemand klickt auf der Website auf **«+ Einreichen»**, füllt die Eingabemaske aus und gibt den Kurs-Code ein (ohne GitHub-Konto).
+2. Der Worker legt ein Issue an und gibt es **automatisch frei**. Ein GitHub-Workflow legt die Datei an, schliesst das Issue und aktualisiert die Website. Nach ein bis zwei Minuten ist der Eintrag online.
 
-Wer lieber direkt in GitHub arbeitet (z. B. um einen Text vor der Freigabe zu korrigieren): Issue öffnen, bei Bedarf bearbeiten und das Label **`freigegeben`** setzen. Das hat dieselbe Wirkung.
+**Einen Eintrag ändern oder entfernen:** Im Ordner `web-tools/` bzw. `ki-skills/` die Datei öffnen, oben rechts auf den Stift (bearbeiten) oder auf «⋯» → *Delete file* klicken und mit *Commit changes* bestätigen. Die Website aktualisiert sich danach automatisch.
 
-Freigeben können nur Personen mit dem Moderations-Passwort oder mit Schreibrechten im Repository. Alle anderen können etwas einreichen, aber nichts selbst veröffentlichen.
+**Lieber jede Einreichung vorher prüfen?** Im Cloudflare Worker die Variable `AUTO_FREIGABE` (Text) mit dem Wert `nein` anlegen. Dann warten Einreichungen in der **Moderation** (Link unten auf der Website oder `…/#moderation`, Anmeldung mit `MOD_CODE`) und werden dort mit einem Klick freigegeben oder abgelehnt. In GitHub geht das auch: Issue öffnen und das Label **`freigegeben`** setzen.
 
-**Worauf beim Freigeben achten:**
+**Worauf beim Prüfen achten:**
 - Führt der Link auf die offizielle Seite des Tools?
 - Verlangt ein Prompt, dass Nutzer:innen persönliche Daten eingeben oder etwas an eine fremde Adresse schicken?
 - Stehen Namen oder vertrauliche Kursinhalte drin, die nicht öffentlich sein sollen?
@@ -55,7 +54,8 @@ GitHub → Profilbild → *Settings* → *Developer settings* → *Personal acce
 | `ALLOWED_ORIGIN` | Text | `https://goshuer.github.io` |
 | `GITHUB_TOKEN` | Secret | der Token aus Schritt 1 |
 | `KURS_CODE` | Secret | ein Code für den Kurs, z. B. `toolbox26` |
-| `MOD_CODE` | Secret | Passwort für die Moderation (nur für Moderator:innen) |
+| `MOD_CODE` | Secret | optional: Passwort für die Moderation |
+| `AUTO_FREIGABE` | Text | optional: `nein`, wenn jede Einreichung vorher geprüft werden soll |
 
 **4. Adresse eintragen**
 Die Adresse des Workers (`https://toolbox-einreichen.<name>.workers.dev`) in `katalog.config.json` bei `einreichen.endpoint` eintragen. Ohne `KURS_CODE` im Worker `kursCode` auf `false` setzen.

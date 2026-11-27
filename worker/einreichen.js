@@ -12,6 +12,8 @@
 //   ALLOWED_ORIGIN  (Text)    z. B. https://goshuer.github.io   (mehrere mit Komma trennen)
 //   KURS_CODE       (Secret)  optional: Code, den man zum Einreichen kennen muss
 //   MOD_CODE        (Secret)  Passwort für die Moderation
+//   AUTO_FREIGABE   (Text)    optional: "nein" = Einreichungen warten auf Freigabe in der Moderation.
+//                             Ohne diese Variable werden Einreichungen mit gültigem Kurs-Code sofort veröffentlicht.
 
 const KATEGORIEN = ['KI & Recherche', 'Design & Bild', 'Text & Dokumente', 'Audio & Video', 'Barrierefreiheit', 'Produktivität', 'Dateien'];
 
@@ -118,7 +120,19 @@ async function einreichen(d, env, cors) {
     console.log('GitHub-Fehler', res.status, await res.text());
     return antwort({ fehler: 'Die Einreichung konnte gerade nicht gespeichert werden. Bitte versuch es später nochmals.' }, 502, cors);
   }
-  return antwort({ ok: true }, 200, cors);
+
+  // Automatische Freigabe: Das Label "freigegeben" startet den Workflow, der den Eintrag veröffentlicht.
+  const auto = String(env.AUTO_FREIGABE || '').trim().toLowerCase() !== 'nein';
+  if (auto) {
+    const { number } = await res.json();
+    const r = await github(env, `/issues/${number}/labels`, 'POST', { labels: ['freigegeben'] });
+    if (!r.ok) {
+      // Kein Drama: Die Einreichung liegt trotzdem vor und kann in der Moderation freigegeben werden.
+      console.log('Automatische Freigabe fehlgeschlagen', r.status, await r.text());
+      return antwort({ ok: true, auto: false }, 200, cors);
+    }
+  }
+  return antwort({ ok: true, auto }, 200, cors);
 }
 
 async function moderation(d, env, cors) {
