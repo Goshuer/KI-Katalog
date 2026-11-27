@@ -9,6 +9,6 @@ tags: Audio, Podcast, Rauschreduktion
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Probiere «Sprache verbessern» bei einem Interview mit störenden Hintergrundgeräuschen aus.

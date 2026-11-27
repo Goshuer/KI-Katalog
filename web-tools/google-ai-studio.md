@@ -9,6 +9,6 @@ tags: Code, Prototyp
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Beschreibe, was ein kleiner Prototyp können soll, und prüfe den generierten Code anhand eines konkreten Beispiels.

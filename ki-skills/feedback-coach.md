@@ -8,11 +8,15 @@ tags: Feedback, Schreiben, Überarbeiten
 hinzugefuegt: 2026-11-27
 ---
 
+## So funktioniert es
+
+Du fügst deinen Text ein. Der Coach fragt zuerst nach Zielgruppe und Ziel und gibt dann Feedback in vier Bereichen: Aufbau, Argumentation, Verständlichkeit und Sprache.
+
 ## Wofür ich es verwendet habe
 
 Ich habe meine Seminararbeit abschnittweise eingefügt und Feedback zu Aufbau, Argumentation und Verständlichkeit bekommen. Der Coach schreibt den Text bewusst nicht um, sondern stellt Fragen und zeigt Schwachstellen auf.
 
-## Wo man es sonst einsetzen könnte
+## Könnte man auch brauchen für
 
 Bewerbungsschreiben, Blogbeiträge oder Newsletter vor dem Versand, Präsentationsskripte.
 

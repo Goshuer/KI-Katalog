@@ -9,6 +9,6 @@ tags: Interview, Transkription, Zusammenfassung
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Nutze die Zusammenfassung als Einstieg und prüfe relevante Aussagen in der Aufnahme.

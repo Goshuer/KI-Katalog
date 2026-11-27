@@ -9,6 +9,6 @@ tags: Literatur, Zitation, Quellen
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Speichere Quellen mit dem Browser-Add-on und füge Zitate aus deiner Sammlung in dein Schreibprogramm ein.

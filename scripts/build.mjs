@@ -71,20 +71,25 @@ export function parseEintrag(typ, file, raw) {
     added: meta.hinzugefuegt || '',
   };
 
+  // KI-Skill: Alles nach "## Prompt" ist der Prompt, unverändert (darf selbst Überschriften enthalten).
+  let text = body;
   if (typ === 'web') {
     eintrag.url = sichereUrl(meta.url, file);
-    eintrag.tip = abschnitte(body).find((a) => a.titel.includes('einsetzen'))?.text || '';
-    return eintrag;
+  } else {
+    const pm = body.match(/^##\s+Prompt\s*$/m);
+    if (!pm) throw new Error(`${file}: Der Abschnitt "## Prompt" fehlt.`);
+    eintrag.prompt = body.slice(pm.index + pm[0].length).trim();
+    if (!eintrag.prompt) throw new Error(`${file}: Der Prompt ist leer.`);
+    text = body.slice(0, pm.index);
   }
 
-  // KI-Skill: Alles nach "## Prompt" ist der Prompt, unverändert (darf selbst Überschriften enthalten).
-  const pm = body.match(/^##\s+Prompt\s*$/m);
-  if (!pm) throw new Error(`${file}: Der Abschnitt "## Prompt" fehlt.`);
-  eintrag.prompt = body.slice(pm.index + pm[0].length).trim();
-  if (!eintrag.prompt) throw new Error(`${file}: Der Prompt ist leer.`);
-  for (const a of abschnitte(body.slice(0, pm.index))) {
-    if (a.titel.startsWith('wofür') || a.titel.startsWith('wofuer')) eintrag.usedFor = a.text;
-    else if (a.titel.includes('sonst') || a.titel.includes('weitere')) eintrag.otherUses = a.text;
+  // Abschnitte: «So funktioniert es», «Wofür ich es verwendet habe», «Könnte man auch brauchen für».
+  // Ältere Überschriften («So kannst du es einsetzen», «Wo man es sonst einsetzen könnte») gehen weiterhin.
+  for (const a of abschnitte(text)) {
+    if (!a.text) continue;
+    if (a.titel.includes('sonst') || a.titel.includes('brauchen') || a.titel.includes('weitere')) eintrag.otherUses = a.text;
+    else if (a.titel.startsWith('wofür') || a.titel.startsWith('wofuer') || a.titel.includes('verwendet')) eintrag.usedFor = a.text;
+    else if (a.titel.includes('funktioniert') || a.titel.includes('einsetzen')) eintrag.howItWorks = a.text;
   }
   return eintrag;
 }

@@ -8,11 +8,15 @@ tags: Protokoll, Sitzung, Pendenzen
 hinzugefuegt: 2026-11-27
 ---
 
+## So funktioniert es
+
+Du fügst deine Stichworte ein. Copilot ordnet sie in Themen, Entscheide und eine Pendenzenliste mit Zuständigkeiten und Terminen.
+
 ## Wofür ich es verwendet habe
 
 Nach unseren Gruppensitzungen habe ich meine Stichworte eingefügt und ein Protokoll erhalten, das ich direkt im Teams-Kanal teilen konnte.
 
-## Wo man es sonst einsetzen könnte
+## Könnte man auch brauchen für
 
 Vereinssitzungen, Elternabende, Projektmeetings im Job.
 

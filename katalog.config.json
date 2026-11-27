@@ -5,6 +5,27 @@
   "ueberschriftZusatz": "für deine Aufgabe.",
   "intro": "Was hilft beim Recherchieren, Gestalten oder Organisieren? Entdecke Web-Tools und KI-Skills, die wir im Kurs ausprobiert haben, mit konkreten Tipps zum Einsatz.",
   "repository": "",
+  "einreichen": {
+    "endpoint": "",
+    "kursCode": true,
+    "plattformenSkill": [
+      "ChatGPT",
+      "Claude",
+      "Microsoft Copilot",
+      "Gemini",
+      "Mehrere / andere"
+    ],
+    "plattformenWeb": [
+      "Web",
+      "Browser-Erweiterung",
+      "App & Browser",
+      "macOS",
+      "Windows",
+      "Desktop",
+      "Smartphone",
+      "Andere"
+    ]
+  },
   "kategorien": {
     "research": "KI & Recherche",
     "design": "Design & Bild",

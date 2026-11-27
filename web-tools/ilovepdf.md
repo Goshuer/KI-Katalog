@@ -9,6 +9,6 @@ tags: PDF, Seiten extrahieren
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Ziehe zum Beispiel die Seiten 4, 9 und 23–26 aus einem langen Dokument in eine eigene Datei.

@@ -9,6 +9,6 @@ tags: Bildersuche, Quellen, Auflösung
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Starte die Bildersuche mit dem Kamera-Symbol. Vergleiche die Treffer, wenn du eine grössere oder die ursprüngliche Version suchst.

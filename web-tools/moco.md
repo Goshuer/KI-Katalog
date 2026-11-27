@@ -9,6 +9,6 @@ tags: Projektmanagement, Zeiterfassung, Rechnung
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Erfasse Stunden direkt für das zugehörige Projekt.

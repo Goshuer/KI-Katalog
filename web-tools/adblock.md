@@ -9,6 +9,6 @@ tags: Browser, Werbung
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 

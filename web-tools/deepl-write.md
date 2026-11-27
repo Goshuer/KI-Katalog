@@ -9,6 +9,6 @@ tags: Korrektur, Schreiben, Grammatik
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Probiere Varianten für einen Satz aus, der noch holprig klingt.

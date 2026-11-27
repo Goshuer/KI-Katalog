@@ -9,6 +9,6 @@ tags: PDF, Zusammenfassung, Studium
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Frage nach der zentralen These oder den fünf wichtigsten Aussagen eines wissenschaftlichen Texts.

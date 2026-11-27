@@ -9,6 +9,6 @@ tags: Zwischenablage, Copy & Paste, Mac
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Hole Text aus dem Verlauf der Zwischenablage zurück. Unter Windows nennt die Liste für den integrierten Verlauf die Tastenkombination Windows-Taste + V.

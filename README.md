@@ -9,7 +9,7 @@ ki-skills/   → ein KI-Skill pro Datei
 
 ## So kommt ein neuer Eintrag in die Toolbox
 
-1. Jemand füllt eines der beiden Formulare aus: **«KI-Skill einreichen»** oder **«Web-Tool empfehlen»** (Reiter *Issues* → *New issue*, oder auf der Website der Knopf «+ Einreichen»).
+1. Jemand klickt auf der Website auf **«+ Einreichen»** und füllt die Eingabemaske aus (ohne GitHub-Konto). Die Einreichung landet als Issue mit dem Label `eingereicht` im Repository. Wer GitHub kennt, kann auch direkt die Formulare unter *Issues* → *New issue* nutzen.
 2. Eine Moderatorin liest die Einreichung. Bei Bedarf bearbeitet sie das Issue direkt (Tippfehler, Kategorie anpassen).
 3. Sie setzt das Label **`freigegeben`**. Danach geht alles automatisch: Die Datei wird angelegt, das Issue geschlossen und die Website in ein bis zwei Minuten aktualisiert.
 
@@ -29,6 +29,35 @@ Die Website zeigt alle Texte nur als reinen Text an. HTML oder Skripte in einem 
 3. **Moderator:innen einladen:** *Settings* → *Collaborators* → Personen mit Rolle «Write» hinzufügen.
 
 Die Labels `freigegeben` und `eingereicht` sind bereits angelegt.
+
+## Eingabemaske einrichten (Cloudflare Worker)
+
+Die Website ist statisch und darf selbst nichts auf GitHub schreiben. Ein kleiner Cloudflare Worker (gratis) nimmt die Einreichungen entgegen und legt sie als Issue an. Der Code liegt in `worker/einreichen.js`. Solange kein Worker eingerichtet ist, führt «+ Einreichen» zu den GitHub-Formularen.
+
+**1. GitHub-Token erstellen**
+GitHub → Profilbild → *Settings* → *Developer settings* → *Personal access tokens* → *Fine-grained tokens* → *Generate new token*
+- *Repository access*: «Only select repositories» → `KI-Katalog`
+- *Permissions* → *Repository permissions* → **Issues: Read and write** (sonst nichts)
+- Ablaufdatum: z. B. Ende des Kurses
+- Token kopieren (wird nur einmal angezeigt)
+
+**2. Worker anlegen**
+[dash.cloudflare.com](https://dash.cloudflare.com) (Gratiskonto) → *Workers & Pages* → *Create* → *Worker* → Namen wählen (z. B. `toolbox-einreichen`) → *Deploy* → *Edit code* → den ganzen Inhalt von `worker/einreichen.js` einfügen → *Deploy*
+
+**3. Einstellungen im Worker**
+*Settings* → *Variables and Secrets* → *Add*:
+
+| Name | Typ | Wert |
+|---|---|---|
+| `REPO` | Text | `Goshuer/KI-Katalog` |
+| `ALLOWED_ORIGIN` | Text | `https://goshuer.github.io` |
+| `GITHUB_TOKEN` | Secret | der Token aus Schritt 1 |
+| `KURS_CODE` | Secret | ein Code für den Kurs, z. B. `toolbox26` |
+
+**4. Adresse eintragen**
+Die Adresse des Workers (`https://toolbox-einreichen.<name>.workers.dev`) in `katalog.config.json` bei `einreichen.endpoint` eintragen. Ohne `KURS_CODE` im Worker `kursCode` auf `false` setzen.
+
+Schutz vor Missbrauch: Nur die eigene Website darf einreichen (`ALLOWED_ORIGIN`), es braucht den Kurs-Code, ein unsichtbares Feld fängt Spam-Bots ab, und nichts erscheint ohne Freigabe.
 
 ## Passwortschutz (optional)
 
@@ -58,9 +87,13 @@ tags: Quellen, Zusammenfassung, Podcast
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Füge eigene Dokumente hinzu und erstelle daraus eine Mindmap oder ein Quiz.
+
+## Könnte man auch brauchen für
+
+Prüfungsvorbereitung, Einarbeitung in ein neues Thema.
 ```
 
 **KI-Skill** (`ki-skills/feedback-coach.md`):
@@ -76,11 +109,15 @@ tags: Feedback, Schreiben
 hinzugefuegt: 2026-11-27
 ---
 
+## So funktioniert es
+
+…
+
 ## Wofür ich es verwendet habe
 
 …
 
-## Wo man es sonst einsetzen könnte
+## Könnte man auch brauchen für
 
 …
 
@@ -89,7 +126,7 @@ hinzugefuegt: 2026-11-27
 Hier steht der Prompt. Alles nach «## Prompt» wird unverändert übernommen.
 ```
 
-`## Prompt` muss der letzte Abschnitt sein. Der Prompt selbst darf Überschriften, Listen usw. enthalten.
+Das Feld `beschreibung` ergänzt den Satz «Das Tool ist für …». Die Abschnitte sind freiwillig, ausser `## Prompt` bei KI-Skills. `## Prompt` muss der letzte Abschnitt sein. Der Prompt selbst darf Überschriften, Listen usw. enthalten.
 
 **Kategorien** (Feld `kategorie`, Schlüssel oder Bezeichnung):
 
@@ -109,7 +146,7 @@ Mehrere Namen bei `von` und mehrere `tags` werden mit Komma getrennt. `hinzugefu
 
 - Titel, Texte im Kopfbereich und Kategorien: `katalog.config.json` (neue Kategorien auch in den beiden Formularen unter `.github/ISSUE_TEMPLATE/` ergänzen)
 - Aussehen: `src/style.css`
-- Formularfelder: `.github/ISSUE_TEMPLATE/*.yml` (wenn du Beschriftungen änderst, auch `scripts/issue-to-eintrag.mjs` anpassen)
+- Felder: Eingabemaske in `src/index.html`, GitHub-Formulare in `.github/ISSUE_TEMPLATE/*.yml`. Die Beschriftungen müssen mit `worker/einreichen.js` und `scripts/issue-to-eintrag.mjs` übereinstimmen.
 
 ## Lokal ansehen
 

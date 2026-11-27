@@ -9,6 +9,6 @@ tags: Finder, Tastenkürzel, Mac
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Nutze den gewohnten Ausschneiden-Befehl, um Dateien im Finder zu verschieben.

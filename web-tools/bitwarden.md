@@ -9,6 +9,6 @@ tags: Passwörter, Sicherheit
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Nutze die Browser-Erweiterung oder die mobile App, um auf deine gespeicherten Logins zuzugreifen.

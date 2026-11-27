@@ -9,6 +9,6 @@ tags: Code, Web-App, Prototyp
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Beschreibe den gewünschten Ablauf und probiere die generierte Oberfläche mit einem Beispiel aus.

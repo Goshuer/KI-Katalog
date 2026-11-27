@@ -8,11 +8,15 @@ tags: Quellen, Faktencheck, Studium
 hinzugefuegt: 2026-11-27
 ---
 
+## So funktioniert es
+
+Du lädst deinen Text und die Quellen hoch. Der Skill geht den Text Aussage für Aussage durch und zeigt in einer Tabelle, welche Aussagen belegt sind und wo.
+
 ## Wofür ich es verwendet habe
 
 Für die Gruppenarbeit habe ich unseren Entwurf zusammen mit den PDFs der Quellen hochgeladen. Das Tool hat markiert, welche Aussagen belegt sind, welche nur teilweise und wo eine Quelle fehlt.
 
-## Wo man es sonst einsetzen könnte
+## Könnte man auch brauchen für
 
 Faktencheck von Medienmitteilungen, Zusammenfassungen überprüfen, die eine KI erstellt hat, Literaturverzeichnis vor der Abgabe kontrollieren.
 

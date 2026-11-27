@@ -9,6 +9,6 @@ tags: Social Media, Resize, Layout
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Wandle einen LinkedIn-Post mit «Magic Switch» oder «Resize» in ein anderes Format um und passe das Ergebnis kurz an.

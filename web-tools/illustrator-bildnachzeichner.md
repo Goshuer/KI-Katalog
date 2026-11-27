@@ -9,6 +9,6 @@ tags: Vektor, Logo, Bildbearbeitung
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Zeichne zum Beispiel ein nur als Pixelbild vorhandenes Logo nach und prüfe die Konturen.

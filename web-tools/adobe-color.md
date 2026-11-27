@@ -9,6 +9,6 @@ tags: Farben, Kontrast, WCAG
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Gib Vorder- und Hintergrundfarbe ein, um die Lesbarkeit einer Farbkombination zu beurteilen.

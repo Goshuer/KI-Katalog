@@ -9,6 +9,6 @@ tags: Tastenkürzel, Mac, Shortcut
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Halte auf dem Mac die Befehlstaste (⌘) gedrückt und tippe auf Tab, um zur nächsten geöffneten App zu springen.

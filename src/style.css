@@ -168,7 +168,7 @@ dialog h2 { margin-bottom: 9px; font-size: clamp(1.65rem, 5vw, 2.35rem); line-he
 .type-pill.skill::before { content: "✦"; color: #f3b956; font-size: .78rem; }
 .card-arrow.skill-hint { font-size: .74rem; font-weight: 720; letter-spacing: .02em; }
 dialog.is-skill { width: min(780px, calc(100% - 32px)); }
-.uses { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+.uses { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin-bottom: 18px; }
 .uses .tip { margin: 0; }
 .uses .tip p { white-space: pre-line; }
 .prompt-box { margin-bottom: 18px; }
@@ -186,3 +186,43 @@ dialog.is-skill { width: min(780px, calc(100% - 32px)); }
   .type-switch button { flex: 1; justify-content: center; padding-inline: 6px; font-size: .84rem; gap: 5px; }
   .submit-link span.long { display: none; }
 }
+
+/* ---------- Eingabemaske ---------- */
+dialog.submit-dialog { width: min(720px, calc(100% - 32px)); }
+.submit-dialog h2 { margin-bottom: 0; }
+.form-intro { color: var(--muted); line-height: 1.55; margin: 4px 0 18px; font-size: .95rem; }
+.field { display: grid; gap: 6px; margin: 0 0 14px; border: 0; padding: 0; min-width: 0; }
+.field > span, .field legend { font-size: .84rem; font-weight: 720; color: var(--ink); padding: 0; }
+.field b { color: var(--accent); font-weight: 800; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.field input, .field textarea, .field select {
+  font: inherit; width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #bfc1b8; border-radius: 9px;
+  background: var(--white); color: var(--ink); font-size: .95rem; line-height: 1.45;
+}
+.field select { padding-block: 0; }
+.field textarea { resize: vertical; }
+.field textarea.mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .85rem; }
+.field input:focus-visible, .field textarea:focus-visible, .field select:focus-visible { outline: 3px solid #2863a0; outline-offset: 1px; }
+.field [aria-invalid="true"] { border-color: #b3261e; background: #fdf3f2; }
+.hint { margin: 0; font-size: .8rem; color: var(--muted); font-weight: 500; line-height: 1.45; }
+.form-type { margin: 0 0 6px; justify-self: start; display: inline-flex; }
+.form-type label { position: relative; }
+.form-type input { position: absolute; opacity: 0; pointer-events: none; }
+.form-type span {
+  min-height: 40px; padding: 0 16px; border-radius: 9px; display: inline-flex; align-items: center;
+  font-size: .9rem; font-weight: 720; color: var(--muted); cursor: pointer;
+}
+.form-type input:checked + span { background: var(--ink); color: white; }
+.form-type input:focus-visible + span { outline: 3px solid #2863a0; outline-offset: 2px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-error { background: #fdf3f2; border: 1px solid #efc3bf; color: #8c1d18; border-radius: 9px; padding: 10px 12px; font-size: .9rem; margin: 0 0 14px; }
+.submit-done { text-align: center; padding: 18px 0 6px; }
+.submit-done .detail-actions { justify-content: center; }
+.submit-done p { color: var(--muted); max-width: 40ch; margin: 0 auto 20px; line-height: 1.55; }
+.done-mark { width: 56px; height: 56px; margin: 0 auto 12px; border-radius: 50%; display: grid; place-items: center; background: #dcead8; color: #30583b; font-size: 1.6rem; font-weight: 800; }
+button[disabled] { opacity: .6; cursor: progress; }
+@media (max-width: 680px) {
+  .field-grid { grid-template-columns: 1fr; }
+}
+.sentence-block { background: #f5f0e2; border-radius: 13px; padding: 14px 14px 2px; margin: 0 0 14px; }
+.sentence-block .field input, .sentence-block .field textarea { border-color: #d8cfb8; }

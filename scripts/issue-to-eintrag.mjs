@@ -14,13 +14,18 @@ const FELDER = {
   'Website-Link': 'url',
   'Plattform': 'plattform',
   'Kategorie': 'kategorie',
-  'Kurzbeschreibung': 'beschreibung',
-  'So kannst du es einsetzen': 'tipp',
-  'Wofür hast du es verwendet?': 'einsatz',
-  'Wo könnte man es sonst noch einsetzen?': 'weitere',
+  'Das Tool ist für …': 'beschreibung',
+  'Es funktioniert so …': 'funktion',
+  'Ich habe es verwendet für …': 'einsatz',
+  'Man könnte es auch brauchen für …': 'weitere',
   'Schlagwörter': 'tags',
   'Erstellt von': 'von',
   'Empfohlen von': 'von',
+  // ältere Beschriftungen
+  'Kurzbeschreibung': 'beschreibung',
+  'So kannst du es einsetzen': 'funktion',
+  'Wofür hast du es verwendet?': 'einsatz',
+  'Wo könnte man es sonst noch einsetzen?': 'weitere',
 };
 const PROMPT_HEAD = '### Prompt / Anweisungen';
 
@@ -56,11 +61,13 @@ export function toMarkdown(e, datum) {
     `hinzugefuegt: ${datum}`,
   ].join('\n');
 
-  if (e.typ === 'web') {
-    return `---\n${kopf}\n---\n\n## So kannst du es einsetzen\n\n${e.tipp || ''}\n`;
-  }
-  return `---\n${kopf}\n---\n\n## Wofür ich es verwendet habe\n\n${e.einsatz || ''}\n\n` +
-    `## Wo man es sonst einsetzen könnte\n\n${e.weitere || ''}\n\n## Prompt\n\n${e.prompt}\n`;
+  const abschnitt = (titel, text) => (text ? `## ${titel}\n\n${text}\n\n` : '');
+  const inhalt =
+    abschnitt('So funktioniert es', e.funktion) +
+    (e.typ === 'skill' ? abschnitt('Wofür ich es verwendet habe', e.einsatz) : '') +
+    abschnitt('Könnte man auch brauchen für', e.weitere) +
+    (e.typ === 'skill' ? `## Prompt\n\n${e.prompt}\n` : '');
+  return `---\n${kopf}\n---\n\n${inhalt}`.replace(/\n+$/, '\n');
 }
 
 export function slugify(s) {

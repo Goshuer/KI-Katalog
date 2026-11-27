@@ -9,6 +9,6 @@ tags: Quellen, Chatbot
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Öffne bei einer Recherche die angezeigten Quellen, um zentrale Aussagen im Original zu überprüfen.

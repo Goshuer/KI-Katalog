@@ -9,6 +9,6 @@ tags: Tabs, Browser, Organisation
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Lege die Tabs eines Projekts gesammelt ab und öffne sie später bei Bedarf wieder.

@@ -9,6 +9,6 @@ tags: Skript, Sprechzeit
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Füge das Skript ein, wenn dir für die Planung eine grobe Zeitschätzung genügt.

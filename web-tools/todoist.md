@@ -9,6 +9,6 @@ tags: Aufgaben, Projektmanagement
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Lege für ein Projekt eine Aufgabenliste an und teile grössere Aufgaben in einzelne Schritte auf.

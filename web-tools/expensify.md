@@ -9,6 +9,6 @@ tags: Spesen, Quittungen, Excel
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Ordne Quittungen nach Kategorien, damit du sie bei der Abrechnung gesammelt auswerten kannst.

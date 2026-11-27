@@ -46,21 +46,26 @@ body:
   - type: input
     id: beschreibung
     attributes:
-      label: Kurzbeschreibung
-      description: Ein Satz, der erklärt, was der Skill macht.
+      label: "Das Tool ist für …"
+      description: Ein Satz, z. B. «… Feedback zu eigenen Texten, ohne sie umzuschreiben.»
+    validations:
+      required: true
+  - type: textarea
+    id: funktion
+    attributes:
+      label: "Es funktioniert so …"
+      description: Was gibst du ein, was macht der Skill daraus?
     validations:
       required: true
   - type: textarea
     id: einsatz
     attributes:
-      label: Wofür hast du es verwendet?
-      description: Beschreibe kurz deinen Anwendungsfall.
-    validations:
-      required: true
+      label: "Ich habe es verwendet für …"
+      description: Dein eigener Anwendungsfall.
   - type: textarea
     id: weitere
     attributes:
-      label: Wo könnte man es sonst noch einsetzen?
+      label: "Man könnte es auch brauchen für …"
       description: Ideen für andere Situationen, Fächer oder Berufe.
   - type: input
     id: tags

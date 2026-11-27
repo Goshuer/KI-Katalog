@@ -48,15 +48,22 @@ body:
   - type: input
     id: beschreibung
     attributes:
-      label: Kurzbeschreibung
+      label: "Das Tool ist für …"
       description: Ein Satz, wofür das Tool gut ist.
     validations:
       required: true
   - type: textarea
-    id: tipp
+    id: funktion
     attributes:
-      label: So kannst du es einsetzen
-      description: Ein konkreter Tipp oder Anwendungsfall.
+      label: "Es funktioniert so …"
+      description: Ein konkreter Tipp, wie man es einsetzt.
+    validations:
+      required: true
+  - type: textarea
+    id: weitere
+    attributes:
+      label: "Man könnte es auch brauchen für …"
+      description: Ideen für andere Situationen, Fächer oder Berufe.
   - type: input
     id: tags
     attributes:

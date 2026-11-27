@@ -9,6 +9,6 @@ tags: Live-Events, Untertitel, Übersetzung
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Teilnehmende können das Audio über Kopfhörer, Hörhilfen oder Cochlea-Implantate verfolgen. Bei Bedarf lässt sich eine Live-Übersetzung einsetzen.

@@ -9,6 +9,6 @@ tags: Icons, Piktogramme
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Suche nach einem Motiv, das zum Stil deiner Grafik passt.

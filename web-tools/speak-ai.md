@@ -9,6 +9,6 @@ tags: Interview, Transkription
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Verwende das Transkript als Arbeitsgrundlage für die Auswertung eines Interviews.

@@ -9,6 +9,6 @@ tags: Ebenen, Bildbearbeitung, Layout
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Verwende beispielsweise nur ein Symbol aus einer Grafik weiter, indem du es als eigenes Element auswählst.

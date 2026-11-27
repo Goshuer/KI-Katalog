@@ -9,6 +9,6 @@ tags: PDF, Seiten sortieren, Zusammenführen
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Kombiniere mehrere Dateien in einem Dokument und entferne oder verschiebe einzelne Seiten.

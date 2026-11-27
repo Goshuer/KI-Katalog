@@ -9,6 +9,6 @@ tags: Text-to-Speech, Stimme, Sprechzeit
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Höre dir ein Skript vor der Aufnahme an, um Sprechdauer und Rhythmus zu prüfen, auch in anderen Sprachen.

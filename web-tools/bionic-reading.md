@@ -9,6 +9,6 @@ tags: Lesen, Schrift, ADHS, Dyslexie
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Probiere das alternative Schriftbild bei einem längeren Webtext aus und prüfe, ob es dir beim Lesen hilft.

@@ -9,6 +9,6 @@ tags: Interview, Transkription, Untertitel
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Überprüfe im Transkript die Passagen, die du für Zitate oder Untertitel verwenden willst.

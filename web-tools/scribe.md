@@ -9,6 +9,6 @@ tags: Dokumentation, Prozesse, Screenshots
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Starte die Aufzeichnung und führe den Prozess einmal aus. Scribe erstellt daraus eine Schritt-für-Schritt-Anleitung mit Screenshots.

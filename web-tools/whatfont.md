@@ -9,6 +9,6 @@ tags: Schrift, Typografie
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Aktiviere die Erweiterung und wähle einen Text auf der Website aus, um die verwendete Schrift zu sehen.

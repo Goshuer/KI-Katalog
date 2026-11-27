@@ -9,6 +9,6 @@ tags: Quellen, Zusammenfassung, Podcast
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Füge eigene Dokumente hinzu und erstelle daraus zum Beispiel eine Mindmap, ein Quiz oder eine Audio-Zusammenfassung.

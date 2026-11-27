@@ -40,19 +40,13 @@ byId('footer-name').textContent = config.titel;
 byId('headline').textContent = config.ueberschrift;
 byId('headline-em').textContent = config.ueberschriftZusatz;
 byId('intro').textContent = config.intro;
-if (config.repository) {
-  const link = byId('submit-link');
-  link.href = config.repository.replace(/\/$/, '') + '/issues/new/choose';
-  link.title = 'Web-Tool oder KI-Skill einreichen';
-  link.hidden = false;
-}
 
 const collator = new Intl.Collator('de-CH', { sensitivity: 'base' });
 const contributors = [...new Set(tools.flatMap((tool) => tool.contributors))].sort(collator.compare);
 const platforms = [...new Set(tools.map((tool) => tool.platform).filter(Boolean))].sort(collator.compare);
 const searchIndex = new Map(tools.map((tool) => [
   tool.id, normalize([
-    tool.name, categories[tool.category], TYPE_SINGULAR[tool.typ], tool.description, tool.tip, tool.platform,
+    tool.name, categories[tool.category], TYPE_SINGULAR[tool.typ], tool.description, tool.howItWorks, tool.platform,
     tool.usedFor, tool.otherUses, tool.prompt, ...tool.contributors, ...tool.tags,
   ].filter(Boolean).join(' ')),
 ]));
@@ -284,20 +278,19 @@ function openDetail(tool, opener) {
   byId('detail-platform').textContent = tool.platform;
   byId('platform-meta').hidden = !tool.platform;
 
-  // Web-Tool
-  byId('detail-tip').textContent = tool.tip ?? '';
-  byId('detail-tip-box').hidden = isSkill || !tool.tip;
   const visit = byId('visit');
   if (!isSkill && tool.url) visit.href = tool.url;
   else visit.removeAttribute('href');
   visit.hidden = isSkill || !tool.url;
 
-  // KI-Skill
-  byId('detail-used').textContent = tool.usedFor ?? '';
-  byId('detail-other').textContent = tool.otherUses ?? '';
-  byId('used-box').hidden = !tool.usedFor;
-  byId('other-box').hidden = !tool.otherUses;
-  byId('skill-uses').hidden = !isSkill || (!tool.usedFor && !tool.otherUses);
+  // So funktioniert es / Verwendet für / Könnte man auch brauchen für
+  const boxes = [['how-box', 'detail-how', tool.howItWorks], ['used-box', 'detail-used', tool.usedFor], ['other-box', 'detail-other', tool.otherUses]];
+  for (const [box, text, value] of boxes) {
+    byId(text).textContent = value ?? '';
+    byId(box).hidden = !value;
+  }
+  byId('uses').hidden = boxes.every(([, , value]) => !value);
+
   byId('prompt-box').hidden = !isSkill;
   byId('copy').hidden = !isSkill;
   byId('copy').textContent = 'Prompt kopieren';
@@ -380,6 +373,149 @@ dialog.addEventListener('close', () => {
   }
 });
 window.addEventListener('hashchange', openFromHash);
+
+// ---------- Eingabemaske ----------
+// Mit "endpoint" (Cloudflare Worker) öffnet "+ Einreichen" das Formular hier auf der Seite.
+// Ohne endpoint führt der Knopf als Notlösung zum Formular auf GitHub.
+const submitCfg = config.einreichen ?? {};
+const submitOpen = byId('submit-open');
+const submitDialog = byId('submit-dialog');
+const form = byId('submit-form');
+const f = form.elements;
+const githubForm = config.repository ? config.repository.replace(/\/$/, '') + '/issues/new/choose' : '';
+
+if (submitCfg.endpoint || githubForm) submitOpen.hidden = false;
+
+const fill = (select, options) => select.replaceChildren(
+  new Option('Bitte wählen …', ''), ...options.map(([value, label]) => new Option(label, value)));
+fill(f.kategorie, Object.values(categories).map((label) => [label, label]));
+byId('kurs-code-field').hidden = !submitCfg.kursCode;
+
+const TYPE_TEXT = {
+  skill: {
+    hint: 'Ein Prompt oder Assistent, den du mit ChatGPT, Claude, Copilot o. Ä. gebaut hast.', von: 'Erstellt von', title: 'Teile deinen KI-Skill',
+    beschreibung: 'Ein Satz, z. B. «… Feedback zu eigenen Texten, ohne sie umzuschreiben.»',
+    funktion: 'Was gibst du ein, was macht der Skill daraus? Z. B. «Du fügst deinen Text ein, der Skill fragt nach der Zielgruppe und gibt Feedback in vier Bereichen.»',
+  },
+  web: {
+    hint: 'Eine Website, App oder Browser-Erweiterung, die dir bei der Arbeit hilft.', von: 'Empfohlen von', title: 'Empfiehl ein Web-Tool',
+    beschreibung: 'Ein Satz, z. B. «… Quellen zu einem Thema sammeln und zusammenfassen.»',
+    funktion: 'Ein konkreter Tipp, wie man es einsetzt. Z. B. «Eigene PDFs hochladen und daraus eine Mindmap erstellen.»',
+  },
+};
+
+function formType() {
+  return form.querySelector('input[name="typ"]:checked').value;
+}
+
+function syncFormType() {
+  const typ = formType();
+  for (const el of form.querySelectorAll('[data-only]')) el.hidden = el.dataset.only !== typ;
+  const current = f.plattform.value;
+  fill(f.plattform, (typ === 'skill' ? submitCfg.plattformenSkill : submitCfg.plattformenWeb ?? []).map((p) => [p, p]));
+  f.plattform.value = current;
+  byId('typ-hint').textContent = TYPE_TEXT[typ].hint;
+  byId('von-label').textContent = TYPE_TEXT[typ].von;
+  byId('submit-title').textContent = TYPE_TEXT[typ].title;
+  for (const hint of form.querySelectorAll('[data-hint]')) hint.textContent = TYPE_TEXT[typ][hint.dataset.hint];
+}
+
+function showDone(done) {
+  byId('submit-fields').hidden = done;
+  byId('submit-done').hidden = !done;
+}
+
+function formError(message, field) {
+  const box = byId('submit-error');
+  box.textContent = message;
+  box.hidden = !message;
+  if (field) {
+    field.setAttribute('aria-invalid', 'true');
+    field.focus();
+  }
+}
+
+function validate() {
+  for (const el of form.querySelectorAll('[aria-invalid]')) el.removeAttribute('aria-invalid');
+  const typ = formType();
+  const need = [
+    [f.name, 'Bitte gib einen Namen ein.'],
+    [f.plattform, 'Bitte wähle eine Plattform.'],
+    [f.kategorie, 'Bitte wähle eine Kategorie.'],
+    [f.beschreibung, 'Bitte ergänze «Das Tool ist für …».'],
+    [f.funktion, 'Bitte ergänze «Es funktioniert so …».'],
+    ...(typ === 'skill' ? [[f.prompt, 'Bitte füge den Prompt ein.']] : []),
+    ...(submitCfg.kursCode ? [[f.kursCode, 'Bitte gib den Kurs-Code ein.']] : []),
+  ];
+  for (const [field, message] of need) {
+    if (!field.value.trim()) return formError(message, field), false;
+  }
+  if (typ === 'web' && f.url.value.trim() && !/^https?:\/\/\S+\.\S+/i.test(f.url.value.trim())) {
+    return formError('Der Link muss mit https:// beginnen.', f.url), false;
+  }
+  formError('');
+  return true;
+}
+
+submitOpen.addEventListener('click', () => {
+  if (!submitCfg.endpoint) {
+    window.open(githubForm, '_blank', 'noopener');
+    return;
+  }
+  showDone(false);
+  syncFormType();
+  formError('');
+  submitDialog.showModal();
+  f.name.focus();
+});
+
+for (const radio of form.querySelectorAll('input[name="typ"]')) radio.addEventListener('change', syncFormType);
+for (const el of form.querySelectorAll('input, textarea, select')) {
+  el.addEventListener('input', () => {
+    if (el.hasAttribute('aria-invalid')) formError('');
+    el.removeAttribute('aria-invalid');
+  });
+}
+byId('submit-close').addEventListener('click', () => submitDialog.close());
+for (const button of form.querySelectorAll('[data-close]')) button.addEventListener('click', () => submitDialog.close());
+byId('submit-another').addEventListener('click', () => {
+  const typ = formType();
+  const von = f.von.value;
+  const code = f.kursCode.value;
+  form.reset();
+  form.querySelector(`input[name="typ"][value="${typ}"]`).checked = true;
+  f.von.value = von;
+  f.kursCode.value = code;
+  syncFormType();
+  showDone(false);
+  f.name.focus();
+});
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!validate()) return;
+  const send = byId('submit-send');
+  const data = Object.fromEntries(new FormData(form));
+  send.disabled = true;
+  send.textContent = 'Wird gesendet …';
+  try {
+    const response = await fetch(submitCfg.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.fehler || 'Das Senden hat nicht geklappt.');
+    showDone(true);
+    byId('submit-done').querySelector('[data-close]').focus();
+  } catch (error) {
+    formError((error instanceof TypeError ? 'Keine Verbindung. Bitte versuch es nochmals.' : error.message));
+  } finally {
+    send.disabled = false;
+    send.textContent = 'Einreichen';
+  }
+});
+
 render();
 openFromHash();
 

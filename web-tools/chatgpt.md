@@ -9,6 +9,6 @@ tags: Lernen, Chatbot, Anleitung
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Beschreibe eine konkrete Aufgabe in Illustrator oder InDesign und lass dir die Arbeitsschritte erklären.

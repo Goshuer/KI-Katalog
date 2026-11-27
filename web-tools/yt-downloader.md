@@ -9,6 +9,6 @@ tags: YouTube, Download
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Verwende für die Weiterverarbeitung eigenes Material oder Inhalte, für die du eine entsprechende Erlaubnis hast.

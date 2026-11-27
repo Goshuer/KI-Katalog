@@ -9,6 +9,6 @@ tags: Dateitransfer, Teilen, Download
 hinzugefuegt: 2026-11-27
 ---
 
-## So kannst du es einsetzen
+## So funktioniert es
 
 Erstelle für eine grosse Videodatei einen Link, den du weitergeben kannst.
