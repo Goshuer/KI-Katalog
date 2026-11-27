@@ -1,0 +1,29 @@
+---
+titel: Quellen-Check
+erstellt_von: Beispiel
+plattform: Claude
+kategorie: Recherche
+kurzbeschreibung: Prüft, ob Aussagen in einem Text durch die angegebenen Quellen gedeckt sind.
+---
+
+## Wofür ich es verwendet habe
+
+Für die Gruppenarbeit habe ich unseren Entwurf zusammen mit den PDFs der Quellen hochgeladen. Das Tool hat markiert, welche Aussagen belegt sind, welche nur teilweise und wo eine Quelle fehlt.
+
+## Wo man es sonst einsetzen könnte
+
+- Faktencheck von Medienmitteilungen
+- Überprüfen von Zusammenfassungen, die eine KI erstellt hat
+- Literaturverzeichnis vor der Abgabe kontrollieren
+
+## Prompt
+
+Ich gebe dir einen Text und die Quellen, auf die er sich stützt.
+
+Gehe den Text Aussage für Aussage durch und erstelle eine Tabelle mit diesen Spalten:
+1. Aussage (kurz zusammengefasst)
+2. Beleg: «gedeckt», «teilweise gedeckt» oder «nicht gedeckt»
+3. Fundstelle in der Quelle (Seite oder Abschnitt)
+4. Kommentar
+
+Erfinde keine Fundstellen. Wenn du eine Aussage in den Quellen nicht findest, schreibe «nicht gedeckt».

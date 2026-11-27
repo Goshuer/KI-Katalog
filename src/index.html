@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITEL}}</title>
+  <style>/*STYLE*/</style>
+</head>
+<body>
+  <header class="kopf">
+    <div class="kopf-inner">
+      <div>
+        <h1 id="titel"></h1>
+        <p id="untertitel" class="untertitel"></p>
+      </div>
+      <a id="einreichen" class="knopf knopf-primaer" target="_blank" rel="noopener" hidden>Tool einreichen</a>
+    </div>
+  </header>
+
+  <main class="inhalt">
+    <section class="filter" aria-label="Suche und Filter">
+      <label class="suche">
+        <span class="visually-hidden">Suchen</span>
+        <input id="suche" type="search" placeholder="Suchen nach Name, Zweck oder Stichwort …" autocomplete="off">
+      </label>
+      <div class="filter-reihe">
+        <span class="filter-label">Plattform</span>
+        <div id="filter-plattform" class="chips" role="group" aria-label="Nach Plattform filtern"></div>
+      </div>
+      <div class="filter-reihe">
+        <span class="filter-label">Kategorie</span>
+        <div id="filter-kategorie" class="chips" role="group" aria-label="Nach Kategorie filtern"></div>
+      </div>
+    </section>
+
+    <p id="anzahl" class="anzahl" aria-live="polite"></p>
+    <div id="liste" class="raster"></div>
+    <p id="leer" class="leer" hidden>Kein Tool passt zu deiner Suche.</p>
+  </main>
+
+  <dialog id="detail" aria-labelledby="d-titel">
+    <article class="detail">
+      <header class="detail-kopf">
+        <div>
+          <span id="d-plattform" class="badge"></span>
+          <h2 id="d-titel"></h2>
+          <p id="d-meta" class="meta"></p>
+        </div>
+        <button type="button" class="schliessen" id="d-schliessen" aria-label="Schliessen">×</button>
+      </header>
+      <p id="d-kurz" class="kurz"></p>
+      <div class="spalten">
+        <section>
+          <h3>Wofür es verwendet wurde</h3>
+          <p id="d-einsatz" class="fliesstext"></p>
+        </section>
+        <section>
+          <h3>Wo man es sonst einsetzen könnte</h3>
+          <p id="d-weitere" class="fliesstext"></p>
+        </section>
+      </div>
+      <section class="prompt-block">
+        <div class="prompt-kopf">
+          <h3>Prompt</h3>
+          <div class="prompt-aktionen">
+            <button type="button" class="knopf" id="d-download">Als Datei</button>
+            <button type="button" class="knopf knopf-primaer" id="d-kopieren">Kopieren</button>
+          </div>
+        </div>
+        <pre id="d-prompt"></pre>
+      </section>
+    </article>
+  </dialog>
+
+  <script type="application/json" id="daten">/*DATA*/</script>
+  <script>/*SCRIPT*/</script>
+</body>
+</html>

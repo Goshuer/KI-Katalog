@@ -1,0 +1,134 @@
+:root {
+  --papier: #f5f3ee;
+  --flaeche: #ffffff;
+  --tinte: #1c1c1a;
+  --grau: #6b6a65;
+  --linie: #e2dfd7;
+  --akzent: #1f3d36;
+  --radius: 14px;
+  --schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  font-family: var(--schrift);
+  color: var(--tinte);
+  background: var(--papier);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Kopf */
+.kopf { border-bottom: 1px solid var(--linie); background: var(--flaeche); }
+.kopf-inner {
+  max-width: 1120px; margin: 0 auto; padding: 40px 24px 32px;
+  display: flex; gap: 24px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap;
+}
+h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.02em; line-height: 1.1; }
+.untertitel { margin: 8px 0 0; color: var(--grau); font-size: 17px; max-width: 56ch; }
+
+/* Knöpfe */
+.knopf {
+  font: inherit; font-size: 14px; font-weight: 600;
+  padding: 9px 16px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--linie); background: var(--flaeche); color: var(--tinte);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  transition: background .15s, border-color .15s;
+}
+.knopf:hover { border-color: var(--tinte); }
+.knopf-primaer { background: var(--akzent); border-color: var(--akzent); color: #fff; }
+.knopf-primaer:hover { background: #142a25; border-color: #142a25; }
+.knopf:focus-visible, .chip:focus-visible, .karte:focus-visible, input:focus-visible, .schliessen:focus-visible {
+  outline: 2px solid var(--akzent); outline-offset: 2px;
+}
+
+/* Filter */
+.inhalt { max-width: 1120px; margin: 0 auto; padding: 28px 24px 64px; }
+.filter { display: grid; gap: 14px; margin-bottom: 20px; }
+.suche input {
+  width: 100%; font: inherit; font-size: 16px; padding: 13px 16px;
+  border: 1px solid var(--linie); border-radius: var(--radius); background: var(--flaeche); color: var(--tinte);
+}
+.filter-reihe { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.filter-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--grau); min-width: 84px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  font: inherit; font-size: 14px; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--linie); background: var(--flaeche); color: var(--tinte);
+}
+.chip:hover { border-color: var(--grau); }
+.chip[aria-pressed="true"] { background: var(--tinte); border-color: var(--tinte); color: #fff; }
+.anzahl { color: var(--grau); font-size: 14px; margin: 0 0 12px; }
+.leer { color: var(--grau); text-align: center; padding: 48px 0; }
+
+/* Plattform-Farben */
+.p-chatgpt { --p: #0e7a5f; --p-hell: #e3f2ec; }
+.p-claude  { --p: #b4532f; --p-hell: #f7e8e0; }
+.p-copilot { --p: #2a5bc4; --p-hell: #e4ebf9; }
+.p-gemini  { --p: #6b4bc2; --p-hell: #ece6f8; }
+.p-andere  { --p: #5c5b57; --p-hell: #ecebe7; }
+.badge {
+  display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+  color: var(--p); background: var(--p-hell);
+}
+
+/* Karten */
+.raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.karte {
+  font: inherit; text-align: left; color: inherit; cursor: pointer;
+  display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
+  padding: 20px; border-radius: var(--radius); border: 1px solid var(--linie); background: var(--flaeche);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s;
+}
+.karte:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(28, 28, 26, .08); border-color: #cfcbc1; }
+.karte-titel { margin: 0; font-size: 19px; line-height: 1.25; letter-spacing: -0.01em; }
+.karte-text { margin: 0; color: var(--grau); font-size: 15px; flex: 1; }
+.karte-fuss { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; margin-top: 4px; flex-wrap: wrap; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-size: 12px; color: var(--grau); border: 1px solid var(--linie); padding: 2px 8px; border-radius: 6px; }
+.von { font-size: 12px; color: var(--grau); }
+
+/* Detail */
+dialog {
+  border: none; padding: 0; border-radius: 18px; width: min(860px, calc(100vw - 24px));
+  max-height: calc(100vh - 48px); background: var(--flaeche); color: var(--tinte);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .25);
+}
+dialog::backdrop { background: rgba(28, 28, 26, .45); }
+.detail { padding: 28px; display: grid; gap: 20px; }
+.detail-kopf { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.detail-kopf h2 { margin: 10px 0 4px; font-size: 26px; letter-spacing: -0.015em; line-height: 1.2; }
+.meta { margin: 0; color: var(--grau); font-size: 14px; }
+.schliessen {
+  font-size: 26px; line-height: 1; width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  border: 1px solid var(--linie); background: var(--flaeche); cursor: pointer; color: var(--tinte);
+}
+.kurz { margin: 0; font-size: 17px; }
+.spalten { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.spalten section { background: var(--papier); border-radius: 12px; padding: 16px 18px; }
+h3 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--grau); }
+.fliesstext { margin: 0; white-space: pre-line; font-size: 15px; }
+.prompt-kopf { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+.prompt-kopf h3 { margin: 0; }
+.prompt-aktionen { display: flex; gap: 8px; }
+pre {
+  margin: 0; padding: 18px; border-radius: 12px; background: #1c1c1a; color: #f1efe9;
+  font-family: var(--mono); font-size: 13.5px; line-height: 1.6;
+  white-space: pre-wrap; word-break: break-word; max-height: 46vh; overflow: auto;
+}
+
+@media (max-width: 640px) {
+  .kopf-inner { padding: 28px 18px 22px; }
+  .inhalt { padding: 20px 18px 48px; }
+  .spalten { grid-template-columns: 1fr; }
+  .detail { padding: 20px; }
+  .filter-label { min-width: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .karte { transition: none; }
+  .karte:hover { transform: none; }
+}

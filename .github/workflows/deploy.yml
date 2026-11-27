@@ -1,0 +1,64 @@
+name: Seite veröffentlichen
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bauen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Immer den neusten Stand holen, auch wenn der Workflow nach "Tool aufnehmen" läuft.
+          ref: ${{ github.event.repository.default_branch }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Katalog bauen
+        run: node scripts/build.mjs
+
+      - name: Passwortschutz (nur wenn das Secret SITE_PASSWORD gesetzt ist)
+        env:
+          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+        run: |
+          if [ -z "$SITE_PASSWORD" ]; then
+            echo "Kein SITE_PASSWORD gesetzt – die Seite bleibt öffentlich."
+            exit 0
+          fi
+          npx --yes staticrypt@3 dist/index.html -p "$SITE_PASSWORD" -d dist --short --remember 30 \
+            --template-title "KI-Toolkatalog" \
+            --template-instructions "Dieser Katalog ist für unseren Kurs. Bitte gib das Passwort ein." \
+            --template-placeholder "Passwort" \
+            --template-button "Öffnen" \
+            --template-remember "Auf diesem Gerät merken" \
+            --template-error "Falsches Passwort" \
+            --template-color-primary "#1f3d36" \
+            --template-color-secondary "#f5f3ee"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  veroeffentlichen:
+    needs: bauen
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

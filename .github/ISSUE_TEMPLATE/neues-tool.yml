@@ -1,0 +1,68 @@
+name: Neues Tool einreichen
+description: Teile ein KI-Tool oder einen Prompt mit dem Kurs.
+title: "Neues Tool: "
+labels: ["eingereicht"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Teilen! Nach dem Absenden schaut eine Moderatorin die Einreichung an. Sobald sie freigegeben ist, erscheint das Tool automatisch im Katalog.
+
+        **Bitte keine persönlichen Daten, Passwörter oder vertraulichen Inhalte in den Prompt schreiben.**
+  - type: input
+    id: titel
+    attributes:
+      label: Name des Tools
+      placeholder: z. B. Feedback-Coach für Texte
+    validations:
+      required: true
+  - type: input
+    id: erstellt_von
+    attributes:
+      label: Erstellt von
+      description: Dein Name oder Vorname, so wie er im Katalog stehen soll.
+  - type: dropdown
+    id: plattform
+    attributes:
+      label: Plattform
+      description: Für welches KI-Tool hast du es gebaut?
+      options:
+        - ChatGPT
+        - Claude
+        - Microsoft Copilot
+        - Gemini
+        - Mehrere / andere
+    validations:
+      required: true
+  - type: input
+    id: kategorie
+    attributes:
+      label: Kategorie
+      description: Ein oder mehrere Stichworte, mit Komma getrennt.
+      placeholder: z. B. Schreiben, Recherche
+  - type: input
+    id: kurzbeschreibung
+    attributes:
+      label: Kurzbeschreibung
+      description: Ein Satz, der erklärt, was das Tool macht.
+    validations:
+      required: true
+  - type: textarea
+    id: einsatz
+    attributes:
+      label: Wofür hast du es verwendet?
+      description: Beschreibe kurz deinen Anwendungsfall.
+    validations:
+      required: true
+  - type: textarea
+    id: weitere
+    attributes:
+      label: Wo könnte man es sonst noch einsetzen?
+      description: Ideen für andere Situationen, Fächer oder Berufe.
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Prompt / Anweisungen
+      description: Füge hier den Prompt oder die Anweisungen ein, genau so, wie du sie verwendest. Markdown ist erlaubt.
+    validations:
+      required: true
