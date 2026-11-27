@@ -1,9 +1,11 @@
 ---
-titel: Quellen-Check
-erstellt_von: Beispiel
+name: Quellen-Check
+kategorie: research
+von: Beispiel
 plattform: Claude
-kategorie: Recherche
-kurzbeschreibung: Prüft, ob Aussagen in einem Text durch die angegebenen Quellen gedeckt sind.
+beschreibung: Prüft, ob Aussagen in einem Text durch die angegebenen Quellen gedeckt sind.
+tags: Quellen, Faktencheck, Studium
+hinzugefuegt: 2026-11-27
 ---
 
 ## Wofür ich es verwendet habe
@@ -12,9 +14,7 @@ Für die Gruppenarbeit habe ich unseren Entwurf zusammen mit den PDFs der Quelle
 
 ## Wo man es sonst einsetzen könnte
 
-- Faktencheck von Medienmitteilungen
-- Überprüfen von Zusammenfassungen, die eine KI erstellt hat
-- Literaturverzeichnis vor der Abgabe kontrollieren
+Faktencheck von Medienmitteilungen, Zusammenfassungen überprüfen, die eine KI erstellt hat, Literaturverzeichnis vor der Abgabe kontrollieren.
 
 ## Prompt
 

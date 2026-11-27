@@ -31,7 +31,7 @@ jobs:
         id: tool
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
-        run: node scripts/issue-to-tool.mjs
+        run: node scripts/issue-to-eintrag.mjs
 
       - name: Ins Repository übernehmen
         env:
@@ -42,7 +42,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "$DATEI"
-          git commit -m "Neues Tool: $TITEL (#$NR)"
+          git commit -m "Neu: $TITEL (#$NR)"
           git push
 
       - name: Issue schliessen
@@ -51,7 +51,7 @@ jobs:
           NR: ${{ github.event.issue.number }}
         run: |
           gh issue close "$NR" --repo "$GITHUB_REPOSITORY" \
-            --comment "Danke! Das Tool ist aufgenommen und erscheint in ein bis zwei Minuten im Katalog."
+            --comment "Danke! Der Eintrag ist aufgenommen und erscheint in ein bis zwei Minuten in der Toolbox."
 
       - name: Bei Fehler im Issue melden
         if: failure()
@@ -60,7 +60,7 @@ jobs:
           NR: ${{ github.event.issue.number }}
         run: |
           gh issue comment "$NR" --repo "$GITHUB_REPOSITORY" \
-            --body "Das Tool konnte nicht automatisch aufgenommen werden. Bitte prüft, ob alle Pflichtfelder ausgefüllt sind (Details unter «Actions»)."
+            --body "Der Eintrag konnte nicht automatisch aufgenommen werden. Bitte prüft, ob alle Pflichtfelder ausgefüllt sind (Details unter «Actions»)."
 
   veroeffentlichen:
     needs: aufnehmen

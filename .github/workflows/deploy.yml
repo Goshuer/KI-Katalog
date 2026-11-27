@@ -40,8 +40,8 @@ jobs:
             exit 0
           fi
           npx --yes staticrypt@3 dist/index.html -p "$SITE_PASSWORD" -d dist --short --remember 30 \
-            --template-title "KI-Toolkatalog" \
-            --template-instructions "Dieser Katalog ist für unseren Kurs. Bitte gib das Passwort ein." \
+            --template-title "Toolbox" \
+            --template-instructions "Die Toolbox ist für unseren Kurs. Bitte gib das Passwort ein." \
             --template-placeholder "Passwort" \
             --template-button "Öffnen" \
             --template-remember "Auf diesem Gerät merken" \

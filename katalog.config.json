@@ -1,5 +1,17 @@
 {
-  "titel": "KI-Toolkatalog",
-  "untertitel": "Tools und Prompts aus unserem KI-Kurs, zum Kopieren und Weiterverwenden.",
-  "repository": ""
+  "titel": "Toolbox",
+  "kicker": "Web-Tools und KI-Skills aus dem Kurs",
+  "ueberschrift": "Das richtige Tool",
+  "ueberschriftZusatz": "für deine Aufgabe.",
+  "intro": "Was hilft beim Recherchieren, Gestalten oder Organisieren? Entdecke Web-Tools und KI-Skills, die wir im Kurs ausprobiert haben, mit konkreten Tipps zum Einsatz.",
+  "repository": "",
+  "kategorien": {
+    "research": "KI & Recherche",
+    "design": "Design & Bild",
+    "writing": "Text & Dokumente",
+    "media": "Audio & Video",
+    "access": "Barrierefreiheit",
+    "work": "Produktivität",
+    "files": "Dateien"
+  }
 }

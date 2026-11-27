@@ -1,0 +1,69 @@
+name: Web-Tool empfehlen
+description: Eine Website, App oder Browser-Erweiterung empfehlen, die dir bei der Arbeit hilft.
+title: "Web-Tool: "
+labels: ["eingereicht"]
+body:
+  - type: markdown
+    attributes:
+      value: Danke für die Empfehlung! Eine Moderatorin schaut sie an. Sobald sie freigegeben ist, erscheint das Tool automatisch in der Toolbox.
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: z. B. NotebookLM
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Website-Link
+      placeholder: https://…
+  - type: dropdown
+    id: kategorie
+    attributes:
+      label: Kategorie
+      options:
+        - KI & Recherche
+        - Design & Bild
+        - Text & Dokumente
+        - Audio & Video
+        - Barrierefreiheit
+        - Produktivität
+        - Dateien
+    validations:
+      required: true
+  - type: dropdown
+    id: plattform
+    attributes:
+      label: Plattform
+      options:
+        - Web
+        - Browser-Erweiterung
+        - App & Browser
+        - macOS
+        - Windows
+        - Desktop
+        - Smartphone
+        - Andere
+  - type: input
+    id: beschreibung
+    attributes:
+      label: Kurzbeschreibung
+      description: Ein Satz, wofür das Tool gut ist.
+    validations:
+      required: true
+  - type: textarea
+    id: tipp
+    attributes:
+      label: So kannst du es einsetzen
+      description: Ein konkreter Tipp oder Anwendungsfall.
+  - type: input
+    id: tags
+    attributes:
+      label: Schlagwörter
+      description: Mit Komma getrennt.
+  - type: input
+    id: von
+    attributes:
+      label: Empfohlen von
+      description: Dein Name oder Vorname.

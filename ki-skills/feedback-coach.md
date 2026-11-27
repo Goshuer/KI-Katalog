@@ -1,9 +1,11 @@
 ---
-titel: Feedback-Coach für Texte
-erstellt_von: Beispiel
+name: Feedback-Coach für Texte
+kategorie: writing
+von: Beispiel
 plattform: ChatGPT
-kategorie: Schreiben, Lernen
-kurzbeschreibung: Gibt konstruktives Feedback zu eigenen Texten, ohne sie umzuschreiben.
+beschreibung: Gibt konstruktives Feedback zu eigenen Texten, ohne sie umzuschreiben.
+tags: Feedback, Schreiben, Überarbeiten
+hinzugefuegt: 2026-11-27
 ---
 
 ## Wofür ich es verwendet habe
@@ -12,9 +14,7 @@ Ich habe meine Seminararbeit abschnittweise eingefügt und Feedback zu Aufbau, A
 
 ## Wo man es sonst einsetzen könnte
 
-- Bewerbungsschreiben und Motivationsschreiben
-- Blogbeiträge oder Newsletter vor dem Versand
-- Präsentationsskripte
+Bewerbungsschreiben, Blogbeiträge oder Newsletter vor dem Versand, Präsentationsskripte.
 
 ## Prompt
 

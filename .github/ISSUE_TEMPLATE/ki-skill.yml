@@ -1,31 +1,26 @@
-name: Neues Tool einreichen
-description: Teile ein KI-Tool oder einen Prompt mit dem Kurs.
-title: "Neues Tool: "
+name: KI-Skill einreichen
+description: Einen Prompt oder ein KI-Tool teilen, das du mit ChatGPT, Claude, Copilot o. Ä. gebaut hast.
+title: "KI-Skill: "
 labels: ["eingereicht"]
 body:
   - type: markdown
     attributes:
       value: |
-        Danke fürs Teilen! Nach dem Absenden schaut eine Moderatorin die Einreichung an. Sobald sie freigegeben ist, erscheint das Tool automatisch im Katalog.
+        Danke fürs Teilen! Eine Moderatorin schaut die Einreichung an. Sobald sie freigegeben ist, erscheint der Skill automatisch in der Toolbox.
 
         **Bitte keine persönlichen Daten, Passwörter oder vertraulichen Inhalte in den Prompt schreiben.**
   - type: input
-    id: titel
+    id: name
     attributes:
-      label: Name des Tools
+      label: Name
       placeholder: z. B. Feedback-Coach für Texte
     validations:
       required: true
-  - type: input
-    id: erstellt_von
-    attributes:
-      label: Erstellt von
-      description: Dein Name oder Vorname, so wie er im Katalog stehen soll.
   - type: dropdown
     id: plattform
     attributes:
       label: Plattform
-      description: Für welches KI-Tool hast du es gebaut?
+      description: Für welches KI-Tool hast du den Skill gebaut?
       options:
         - ChatGPT
         - Claude
@@ -34,17 +29,25 @@ body:
         - Mehrere / andere
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: kategorie
     attributes:
       label: Kategorie
-      description: Ein oder mehrere Stichworte, mit Komma getrennt.
-      placeholder: z. B. Schreiben, Recherche
+      options:
+        - KI & Recherche
+        - Design & Bild
+        - Text & Dokumente
+        - Audio & Video
+        - Barrierefreiheit
+        - Produktivität
+        - Dateien
+    validations:
+      required: true
   - type: input
-    id: kurzbeschreibung
+    id: beschreibung
     attributes:
       label: Kurzbeschreibung
-      description: Ein Satz, der erklärt, was das Tool macht.
+      description: Ein Satz, der erklärt, was der Skill macht.
     validations:
       required: true
   - type: textarea
@@ -59,10 +62,21 @@ body:
     attributes:
       label: Wo könnte man es sonst noch einsetzen?
       description: Ideen für andere Situationen, Fächer oder Berufe.
+  - type: input
+    id: tags
+    attributes:
+      label: Schlagwörter
+      description: Mit Komma getrennt.
+      placeholder: z. B. Feedback, Schreiben
+  - type: input
+    id: von
+    attributes:
+      label: Erstellt von
+      description: Dein Name oder Vorname, so wie er in der Toolbox stehen soll.
   - type: textarea
     id: prompt
     attributes:
       label: Prompt / Anweisungen
-      description: Füge hier den Prompt oder die Anweisungen ein, genau so, wie du sie verwendest. Markdown ist erlaubt.
+      description: Füge den Prompt oder die Anweisungen genau so ein, wie du sie verwendest. Markdown ist erlaubt.
     validations:
       required: true

@@ -1,9 +1,11 @@
 ---
-titel: Sitzungsprotokoll aus Notizen
-erstellt_von: Beispiel
+name: Sitzungsprotokoll aus Notizen
+kategorie: work
+von: Beispiel
 plattform: Microsoft Copilot
-kategorie: Organisation
-kurzbeschreibung: Macht aus losen Stichworten ein sauberes Protokoll mit Pendenzenliste.
+beschreibung: Macht aus losen Stichworten ein sauberes Protokoll mit Pendenzenliste.
+tags: Protokoll, Sitzung, Pendenzen
+hinzugefuegt: 2026-11-27
 ---
 
 ## Wofür ich es verwendet habe
@@ -12,9 +14,7 @@ Nach unseren Gruppensitzungen habe ich meine Stichworte eingefügt und ein Proto
 
 ## Wo man es sonst einsetzen könnte
 
-- Vereinssitzungen
-- Elternabende
-- Projektmeetings im Job
+Vereinssitzungen, Elternabende, Projektmeetings im Job.
 
 ## Prompt
 

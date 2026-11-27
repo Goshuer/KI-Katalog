@@ -1,78 +1,185 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de-CH">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{TITEL}}</title>
+  <meta name="description" content="{{KICKER}}">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f8f6ef">
+  <title>{{TITEL}} · {{KICKER}}</title>
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNiAzNiI+CiAgPHJlY3Qgd2lkdGg9IjM2IiBoZWlnaHQ9IjM2IiByeD0iMTAiIGZpbGw9IiMxNTI4M2QiLz4KICA8cGF0aCBkPSJtOSAxNSA5LTUgOSA1LTkgNXptMCA0LjUgOSA1IDktNU05IDI0bDkgNSA5LTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2YzYjk1NiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K" type="image/svg+xml">
   <style>/*STYLE*/</style>
 </head>
 <body>
-  <header class="kopf">
-    <div class="kopf-inner">
-      <div>
-        <h1 id="titel"></h1>
-        <p id="untertitel" class="untertitel"></p>
+  <a class="skip" href="#search">Zur Suche springen</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="./" aria-label="Startseite">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNiAzNiI+CiAgPHJlY3Qgd2lkdGg9IjM2IiBoZWlnaHQ9IjM2IiByeD0iMTAiIGZpbGw9IiMxNTI4M2QiLz4KICA8cGF0aCBkPSJtOSAxNSA5LTUgOSA1LTkgNXptMCA0LjUgOSA1IDktNU05IDI0bDkgNSA5LTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2YzYjk1NiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K" width="36" height="36" alt="">
+        <span><span id="brand-name"></span><span class="brand-dot">.</span></span>
+      </a>
+      <div class="header-actions">
+        <nav aria-label="Ansicht">
+          <button id="browse" type="button" aria-pressed="true">Bibliothek</button>
+          <button id="saved-view" type="button" aria-pressed="false">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16l-6-4-6 4z"/></svg>
+            Merkliste <span id="saved-count" class="saved-count" hidden></span>
+          </button>
+        </nav>
+        <a id="submit-link" class="button button-dark submit-link" target="_blank" rel="noopener" hidden>+ <span class="long">Einreichen</span></a>
       </div>
-      <a id="einreichen" class="knopf knopf-primaer" target="_blank" rel="noopener" hidden>Tool einreichen</a>
     </div>
   </header>
-
-  <main class="inhalt">
-    <section class="filter" aria-label="Suche und Filter">
-      <label class="suche">
-        <span class="visually-hidden">Suchen</span>
-        <input id="suche" type="search" placeholder="Suchen nach Name, Zweck oder Stichwort …" autocomplete="off">
-      </label>
-      <div class="filter-reihe">
-        <span class="filter-label">Plattform</span>
-        <div id="filter-plattform" class="chips" role="group" aria-label="Nach Plattform filtern"></div>
+  <main class="shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="kicker"><span></span> {{KICKER}}</p>
+        <h1 id="page-title"><span id="headline"></span> <em id="headline-em"></em></h1>
+        <p id="intro" class="intro"></p>
+        <div class="search" role="search">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4 4"/></svg>
+          <label class="sr-only" for="search">Tools und Skills suchen</label>
+          <input id="search" type="search" placeholder="Tool, Skill oder Aufgabe suchen …" autocomplete="off" spellcheck="false">
+          <button id="clear-search" class="icon-button" type="button" aria-label="Suche leeren" hidden>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
       </div>
-      <div class="filter-reihe">
-        <span class="filter-label">Kategorie</span>
-        <div id="filter-kategorie" class="chips" role="group" aria-label="Nach Kategorie filtern"></div>
-      </div>
+      <svg class="hero-art" viewBox="0 0 440 300" aria-hidden="true">
+        <defs>
+          <pattern id="dots" width="17" height="17" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1.1" fill="#8b9dba" opacity=".4"/></pattern>
+        </defs>
+        <rect width="440" height="300" rx="24" fill="#15283d"/>
+        <rect x="19" y="19" width="402" height="262" fill="url(#dots)"/>
+        <g fill="none" stroke="#71839a" stroke-width="1"><path d="M36 48V36h12m344 0h12v12M36 252v12h12m344 0h12v-12"/><path d="M45 150h350M220 40v220" opacity=".4"/></g>
+        <circle cx="219" cy="151" r="112" fill="none" stroke="#708299" stroke-width="1" stroke-dasharray="3 8"/>
+        <g transform="translate(63 84) rotate(-13 66 79)">
+          <rect x="4" y="7" width="128" height="142" rx="16" fill="#0d1b2c"/>
+          <rect width="128" height="142" rx="16" fill="#f3b956"/>
+          <circle cx="56" cy="65" r="20" fill="none" stroke="#15283d" stroke-width="5"/><path d="m70 80 19 19" stroke="#15283d" stroke-width="5" stroke-linecap="round"/>
+          <path d="M18 119h24" stroke="#15283d" opacity=".5" stroke-width="2"/>
+        </g>
+        <g transform="translate(153 70) rotate(2 67 80)">
+          <rect x="4" y="7" width="134" height="160" rx="16" fill="#0d1b2c"/>
+          <rect width="134" height="160" rx="16" fill="#f7f2e3"/>
+          <path d="m37 72 31-18 31 18-31 18zM37 85l31 18 31-18M37 98l31 18 31-18" fill="none" stroke="#15283d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 138h24" stroke="#15283d" opacity=".4" stroke-width="2"/>
+        </g>
+        <g transform="translate(251 82) rotate(14 62 74)">
+          <rect x="4" y="7" width="128" height="142" rx="16" fill="#0d1b2c"/>
+          <rect width="128" height="142" rx="16" fill="#c4d8f2"/>
+          <path d="M35 72h8l8-19 10 39 10-42 9 28 7-6h9" fill="none" stroke="#15283d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 119h24" stroke="#15283d" opacity=".45" stroke-width="2"/>
+        </g>
+        <path d="M319 42v20m-10-10h20M110 243v16m-8-8h16" stroke="#f3b956" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="368" cy="238" r="3" fill="#c4d8f2"/><circle cx="78" cy="64" r="2.5" fill="#c4d8f2"/>
+      </svg>
     </section>
-
-    <p id="anzahl" class="anzahl" aria-live="polite"></p>
-    <div id="liste" class="raster"></div>
-    <p id="leer" class="leer" hidden>Kein Tool passt zu deiner Suche.</p>
-  </main>
-
-  <dialog id="detail" aria-labelledby="d-titel">
-    <article class="detail">
-      <header class="detail-kopf">
-        <div>
-          <span id="d-plattform" class="badge"></span>
-          <h2 id="d-titel"></h2>
-          <p id="d-meta" class="meta"></p>
-        </div>
-        <button type="button" class="schliessen" id="d-schliessen" aria-label="Schliessen">×</button>
-      </header>
-      <p id="d-kurz" class="kurz"></p>
-      <div class="spalten">
-        <section>
-          <h3>Wofür es verwendet wurde</h3>
-          <p id="d-einsatz" class="fliesstext"></p>
-        </section>
-        <section>
-          <h3>Wo man es sonst einsetzen könnte</h3>
-          <p id="d-weitere" class="fliesstext"></p>
-        </section>
+    <section id="catalog" class="catalog" aria-labelledby="catalog-title">
+      <div class="catalog-heading">
+        <h2 id="catalog-title">Bibliothek</h2>
+        <p id="result-count" role="status" aria-atomic="true"></p>
       </div>
-      <section class="prompt-block">
-        <div class="prompt-kopf">
-          <h3>Prompt</h3>
-          <div class="prompt-aktionen">
-            <button type="button" class="knopf" id="d-download">Als Datei</button>
-            <button type="button" class="knopf knopf-primaer" id="d-kopieren">Kopieren</button>
+      <div class="filters">
+        <div id="type-switch" class="type-switch" role="group" aria-label="Nach Typ filtern"></div>
+        <div id="categories" class="categories" role="group" aria-label="Nach Kategorie filtern"></div>
+        <div class="secondary-filters">
+          <div class="select-label">
+            <label for="contributor">Von</label>
+            <select id="contributor"><option value="">Alle Personen</option></select>
           </div>
+          <div class="select-label">
+            <label for="platform">Plattform</label>
+            <select id="platform"><option value="">Alle Plattformen</option></select>
+          </div>
+          <div class="select-label">
+            <label for="sort">Sortierung</label>
+            <select id="sort">
+              <option value="new">Neueste zuerst</option>
+              <option value="az">Name A–Z</option>
+            </select>
+          </div>
+          <button id="reset" type="button" class="text-button" hidden>Filter zurücksetzen</button>
         </div>
-        <pre id="d-prompt"></pre>
-      </section>
+      </div>
+      <div id="cards" class="cards"></div>
+      <div id="empty" class="empty" hidden>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4 4"/></svg>
+        <h3 id="empty-title"></h3>
+        <p id="empty-text"></p>
+        <button id="empty-action" class="button button-dark" type="button"></button>
+      </div>
+      <noscript>Aktiviere JavaScript, um die Toolbox zu durchsuchen.</noscript>
+    </section>
+  </main>
+  <footer class="shell footer"><span id="footer-name"></span><span>{{KICKER}}</span></footer>
+
+  <template id="tool-card">
+    <article class="card">
+      <div class="card-top">
+        <div class="card-ident">
+          <div class="tile"></div>
+          <span class="type-pill"></span>
+        </div>
+        <button class="icon-button bookmark" type="button" aria-pressed="false"></button>
+      </div>
+      <div class="card-body">
+        <p class="card-category"></p>
+        <h3><button class="detail-trigger" type="button"></button></h3>
+        <p class="card-description"></p>
+      </div>
+      <div class="card-bottom">
+        <p class="card-credit"></p>
+        <span class="card-arrow" aria-hidden="true"></span>
+      </div>
     </article>
+  </template>
+
+  <dialog id="detail" aria-labelledby="detail-title">
+    <div class="detail-inner">
+      <div class="detail-top">
+        <div class="card-ident">
+          <div id="detail-tile" class="tile"></div>
+          <span id="detail-type" class="type-pill"></span>
+        </div>
+        <button id="close-detail" class="icon-button close-detail" type="button" aria-label="Details schliessen">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <p id="detail-category" class="card-category"></p>
+      <h2 id="detail-title"></h2>
+      <p id="detail-description"></p>
+      <dl class="detail-meta">
+        <div><dt id="credit-label">Empfohlen von</dt><dd id="detail-credit"></dd></div>
+        <div id="platform-meta"><dt>Plattform</dt><dd id="detail-platform"></dd></div>
+      </dl>
+
+      <!-- Web-Tool -->
+      <div id="detail-tip-box" class="tip"><h3>So kannst du es einsetzen</h3><p id="detail-tip"></p></div>
+
+      <!-- KI-Skill -->
+      <div id="skill-uses" class="uses">
+        <div id="used-box" class="tip"><h3>Wofür es verwendet wurde</h3><p id="detail-used"></p></div>
+        <div id="other-box" class="tip"><h3>Wo man es sonst einsetzen könnte</h3><p id="detail-other"></p></div>
+      </div>
+      <div id="prompt-box" class="prompt-box">
+        <div class="prompt-head">
+          <h3>Prompt</h3>
+          <button id="download" class="button button-light" type="button">Als Datei</button>
+        </div>
+        <pre id="detail-prompt"></pre>
+      </div>
+
+      <ul id="detail-tags" class="tags" aria-label="Schlagwörter"></ul>
+      <div class="detail-actions">
+        <a id="visit" class="button button-dark" target="_blank" rel="noopener noreferrer">Website öffnen <span aria-hidden="true">↗</span><span class="sr-only"> (neuer Tab)</span></a>
+        <button id="copy" class="button button-dark" type="button">Prompt kopieren</button>
+        <button id="detail-save" class="button button-light" type="button" aria-pressed="false"></button>
+      </div>
+    </div>
   </dialog>
 
-  <script type="application/json" id="daten">/*DATA*/</script>
+  <script type="application/json" id="data">/*DATA*/</script>
   <script>/*SCRIPT*/</script>
 </body>
 </html>
